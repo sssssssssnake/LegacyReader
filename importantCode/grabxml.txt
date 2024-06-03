@@ -1,0 +1,129 @@
+import java.io.*;
+import java.nio.file.*;
+import java.util.regex.*;
+import java.util.ArrayList;
+
+
+public class Main {
+
+  static String path = "/home/sssssssssnake/Downloads/22G_Minor22/score.xml";
+  static String keyword = "note";
+  static ArrayList<XmlNote> notes = new ArrayList<XmlNote>();
+
+  static ArrayList<int[]> measureStartEnd = new ArrayList<int[]>();
+  public static void main(String[] args) {
+
+
+
+    try {
+      String xmlContent = new String(Files.readAllBytes(Paths.get(path)));
+      scanXMLForKeywordNoteList(xmlContent, keyword, notes);
+      scanXMLForMeasureStartEnd(xmlContent, measureStartEnd);
+     } catch (IOException e) {
+      System.err.println("Error reading the file: " + e.getMessage());
+    }
+    print("Found " + notes.size() + " " + keyword + "s");
+
+    print("Found " + measureStartEnd.size() + " measures");
+
+
+
+
+
+
+
+    // print first 10 notes
+    for (int i = 0; i < 10; i++) {
+      print(notes.get(i).contents);
+    }
+
+    // print first 20 note start and end lines
+
+    for (int i = 0; i < 20; i++) {
+      print("Start line: " + notes.get(i).startLine + " End line: " + notes.get(i).endLine);
+    }
+
+    // print first 10 letternames of the notes
+
+    for (int i = 0; i < 10; i++) {
+      print(grabContents(notes.get(i).contents, "step")+ grabContents(notes.get(i).contents, "octave"));
+    }
+
+    // print first 10 measure start and end lines
+
+    for (int i = 0; i < 10; i++) {
+      print("Start line: " + measureStartEnd.get(i)[0] + " End line: " + measureStartEnd.get(i)[1]);
+    }
+  }
+
+
+
+
+  public static void print(String text) {
+    System.out.println(text);
+  }
+
+  public static void GrabNumbers() {
+
+  }
+
+  public static void scanXMLForKeywordNoteList(String xml, String keyword, ArrayList<XmlNote> notes) {
+    String patternString = "<" + keyword + ".*?</" + keyword + ">";
+    Pattern pattern = Pattern.compile(patternString, Pattern.DOTALL);
+    Matcher matcher = pattern.matcher(xml);
+    while (matcher.find()) {
+      String match = matcher.group();
+      int startLine = countLines(xml.substring(0, matcher.start())) + 1;
+      int endLine = countLines(xml.substring(0, matcher.end()));
+
+      notes.add(new XmlNote(startLine, endLine, match));
+    }
+  }
+
+  // make a method that grabs the first and last line of each measure
+
+  public static void scanXMLForMeasureStartEnd(String xml, ArrayList<int[]> measureStartEnd) {
+    String patternString = "<measure.*?</measure>";
+    Pattern pattern = Pattern.compile(patternString, Pattern.DOTALL);
+    Matcher matcher = pattern.matcher(xml);
+    while (matcher.find()) {
+      String match = matcher.group();
+      int startLine = countLines(xml.substring(0, matcher.start())) + 1;
+      int endLine = countLines(xml.substring(0, matcher.end()));
+
+      measureStartEnd.add(new int[] {startLine, endLine});
+    }
+  }
+
+  public static int countLines(String str) {
+    String[] lines = str.split("\r\n|\r|\n");
+    return lines.length;
+   }
+
+  // Make a method that grabs only the contents from an xml text
+
+  public static String grabContents(String data, String keyword) {
+    String patternString = "<" + keyword + ".*?>(.*?)</" + keyword + ">";
+    Pattern pattern = Pattern.compile(patternString, Pattern.DOTALL);
+    Matcher matcher = pattern.matcher(data);
+    if (matcher.find()) {
+      return matcher.group(1);
+    }
+    return "";
+  }
+
+
+  static public class XmlNote {
+    public int startLine;
+    public int endLine;
+    public String contents;
+
+    public XmlNote (int start, int end, String stuff) {
+	    startLine = start;
+	    endLine = end;
+	    contents = stuff;
+    }
+}
+
+}
+

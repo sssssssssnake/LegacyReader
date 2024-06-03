@@ -2,6 +2,7 @@ package com.serpentech.legacyreader;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -65,7 +66,7 @@ public class SecondFragment extends Fragment {
             fileChooserLauncher.launch(intent);
         });
 
-        binding.BackButton.setOnClickListener(v ->
+        binding.backButton.setOnClickListener(v ->
                 NavHostFragment.findNavController(SecondFragment.this)
                         .navigate(R.id.action_SecondFragment_to_FirstFragment)
         );
@@ -78,18 +79,43 @@ public class SecondFragment extends Fragment {
     }
 
     public String getRealPathFromURI(Uri contentUri) {
-        String result;
-        Cursor cursor = getContext().getContentResolver().query(contentUri, null, null, null, null);
-        if (cursor == null) { // Source is Dropbox or other similar local file path
-            result = contentUri.getPath();
-        } else {
+        Cursor cursor = null;
+        try {
+            String[] proj = { MediaStore.Images.Media.DATA };
+            cursor = getContext().getContentResolver().query(contentUri, proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
-            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-            result = cursor.getString(idx);
-            cursor.close();
+            return cursor.getString(column_index);
+        } catch (Exception e) {
+            // This is the case when the quick pop-up provides a content URI
+            // which does not directly map to a file path
+            Log.e("FileSelection", "Could not get file path: " + e.getMessage());
+            return null;
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
-        return result;
     }
+
+    public static String getFilePathForN(Uri uri, Context context) {
+        Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
+        cursor.moveToFirst();
+        String document_id = cursor.getString(0);
+        document_id = document_id.substring(document_id.lastIndexOf(":") + 1);
+        cursor.close();
+
+        cursor = context.getContentResolver().query(
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
+        cursor.moveToFirst();
+        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+        cursor.close();
+
+        return path;
+    }
+
+
 
 
 }

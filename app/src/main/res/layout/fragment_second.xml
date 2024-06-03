@@ -16,16 +16,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <Button
-        android:id="@+id/BackButton"
+        android:id="@+id/nextSheet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:text="@string/nextSheet"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/button_second"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <com.serpentech.legacyreader.musicstuff.MusicSheetView
         android:id="@+id/music_sheet_view"
@@ -38,7 +39,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_second" />
 
-
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/back"
+        app:layout_constraintEnd_toStartOf="@+id/button_second"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
