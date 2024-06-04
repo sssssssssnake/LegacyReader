@@ -12,14 +12,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.lang.reflect.Type;
 
-public class ConfigJson {
+public class ConfigFilesJson {
 
-    String appWorkingDirectory = CustomFileManager.appWorkingDirectory;
+    static String appWorkingDirectory = CustomFileManager.appWorkingDirectory;
 
-    List<ConfigFile> configuration = new ArrayList<ConfigFile>();
+    static List<ConfigFile> configuration = new ArrayList<ConfigFile>();
 
-    public void addConfig(String name, String parentDirectory, String path, String extension) {
+    public static void addConfig(String name, String parentDirectory, String path, String extension) {
         configuration.add(new ConfigFile(name, parentDirectory, path, extension));
+    }
+    public static void saveConfig() {
+        writeConfig(appWorkingDirectory, configuration);
     }
     public static void writeConfig(String directoryPath, List<ConfigFile> config) {
         Gson gson = new Gson();
@@ -73,4 +76,6 @@ public class ConfigJson {
             this.extension = extension;
         }
     }
+
+
 }
