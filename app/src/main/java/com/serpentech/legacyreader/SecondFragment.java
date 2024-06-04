@@ -2,6 +2,7 @@ package com.serpentech.legacyreader;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -53,7 +54,9 @@ public class SecondFragment extends Fragment {
 
                             // log the path to debug
                             Log.d("FileStuff", "Selected file path: " + getRealPathFromURI(uri));
+
                             // Now you can use the path to manipulate the file
+
                         }
                     }
                 }
@@ -109,7 +112,7 @@ public class SecondFragment extends Fragment {
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
         cursor.moveToFirst();
-        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+        @SuppressLint("Range") String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
         cursor.close();
 
         return path;
