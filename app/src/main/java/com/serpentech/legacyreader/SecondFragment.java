@@ -22,6 +22,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import com.serpentech.legacyreader.databinding.FragmentSecondBinding;
+import com.serpentech.legacyreader.filemanagement.ConfigFilesJson;
+import com.serpentech.legacyreader.filemanagement.CustomFileManager;
 
 public class SecondFragment extends Fragment {
 
@@ -51,11 +53,27 @@ public class SecondFragment extends Fragment {
                             Uri uri = data.getData();
                             assert uri != null;
                             String path = uri.getPath();
+                            String name = uri.getLastPathSegment();
 
                             // log the path to debug
-                            Log.d("FileStuff", "Selected file path: " + getRealPathFromURI(uri));
+                            // Check if the real path is valid, otherwise use the URI string
+                            String uriPath = getRealPathFromURI(uri);
+                            if (uriPath == null) {
+                                uriPath = uri.toString();
+                            }
 
-                            // Now you can use the path to manipulate the file
+                            //grab the file name from the URI using last /
+                            name = uriPath.substring(uriPath.lastIndexOf("/") + 1);
+                            Log.d("FileStuff", "Selected file name: " + name);
+                            // log path
+                            Log.d("FileStuff", "Selected file path: " + uriPath);
+                            // if the file name does not contain a period, nullify the field
+                            if (!name.contains(".")) {
+                                name = null;
+                            }
+
+
+                            CustomFileManager.copyFileUri(getContext(), uri, name, uriPath);                            // Now you can use the path to manipulate the file
 
                         }
                     }
@@ -63,6 +81,7 @@ public class SecondFragment extends Fragment {
         );
 
         binding.buttonSecond.setOnClickListener(v -> {
+            ConfigFilesJson.number = ConfigFilesJson.readBadFileNamesRecord();
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("*/*");
             intent.addCategory(Intent.CATEGORY_OPENABLE);

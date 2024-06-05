@@ -17,6 +17,8 @@ public class ConfigFilesJson {
     static String appWorkingDirectory = CustomFileManager.appWorkingDirectory;
 
     static List<ConfigFile> configuration = new ArrayList<ConfigFile>();
+    static String badFileNamesRecord = "googlebad.json";
+    static public int number = 0;
 
     public static void addConfig(String name, String parentDirectory, String path, String extension) {
         configuration.add(new ConfigFile(name, parentDirectory, path, extension));
@@ -75,6 +77,41 @@ public class ConfigFilesJson {
             this.path = path;
             this.extension = extension;
         }
+    }
+
+    // make and read a file the represents all bad filenames using a number stored in a json file
+    public static void makeBadFileNamesRecord(int number) {
+        Gson gson = new Gson();
+        String json = gson.toJson(number);
+        try (FileWriter writer = new FileWriter(appWorkingDirectory + badFileNamesRecord)) {
+            writer.write(json);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // be able to read the number stored in a json file
+    public static int readBadFileNamesRecord() {
+        String filePath = appWorkingDirectory;
+        Gson gson = new Gson();
+        int number = 0;
+
+        // Construct the full path to the JSON file
+        String badFileNamesRecordPath = filePath + badFileNamesRecord;
+
+        // Check if the file exists
+        if (!Files.exists(Paths.get(badFileNamesRecordPath))) {
+            System.out.println("The bad file names record file does not exist.");
+            return 0;
+        } else {
+            try (FileReader reader = new FileReader(badFileNamesRecordPath)) {
+                number = gson.fromJson(reader, int.class);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return number;
     }
 
 
