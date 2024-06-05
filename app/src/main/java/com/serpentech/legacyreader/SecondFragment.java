@@ -16,7 +16,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -28,7 +27,6 @@ import com.serpentech.legacyreader.databinding.FragmentSecondBinding;
 import com.serpentech.legacyreader.filemanagement.ConfigFilesJson;
 import com.serpentech.legacyreader.filemanagement.CustomFileManager;
 
-import java.nio.charset.StandardCharsets;
 
 public class SecondFragment extends Fragment {
 
@@ -57,8 +55,7 @@ public class SecondFragment extends Fragment {
                         if (data != null) {
                             Uri uri = data.getData();
                             assert uri != null;
-                            String path = uri.getPath();
-                            String name = uri.getLastPathSegment();
+                            String name;
 
                             // log the path to debug
                             // Check if the real path is valid, otherwise use the URI string
