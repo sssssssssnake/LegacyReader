@@ -1,6 +1,8 @@
 package com.serpentech.legacyreader;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.Manifest;
 import com.google.android.material.snackbar.Snackbar;
@@ -8,6 +10,8 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Environment;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 
@@ -65,11 +69,33 @@ public class MainActivity extends AppCompatActivity {
                     MY_PERMISSIONS_REQUEST_MANAGE_EXTERNAL_STORAGE);
         }
 
+
+
+
+
+
+
         setSupportActionBar(binding.toolbar);
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+
+        if (!Environment.isExternalStorageManager()) {
+            // If not granted, launch the settings to allow user to grant permission
+            Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+            Uri uri = Uri.fromParts("package", getPackageName(), null);
+            intent.setData(uri);
+            startActivity(intent);
+        }
+        // log permissions granted
+        Log.d("MainActivity", (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) ? "write Permission denied" : "write Permission granted");
+        Log.d("MainActivity", ((ContextCompat.checkSelfPermission(this, Manifest.permission.MANAGE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) ? "manage Permission denied" : "manage Permission granted"));
+        Log.d("MainActivity", ((ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) ? "read Permission denied" : "read Permission granted"));
+
 
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override

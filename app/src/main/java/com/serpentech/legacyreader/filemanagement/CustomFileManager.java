@@ -3,6 +3,7 @@ package com.serpentech.legacyreader.filemanagement;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -59,15 +60,17 @@ public class CustomFileManager {
 
     public static void copyFileUri(Context context, Uri sourceUri, String destinationFileName, String uriPath) {
         File destinationFile;
-        String fileExtension = "xml"; // Default extension for bad files
+        String fileExtension = "mxl"; // Default extension for bad files
 
         // Check if the file name is null (bad file) or not (good file)
         if (destinationFileName == null) {
+            Log.d("CustomFileManager", "File name is null");
             // Handle bad file
             String badFileName = "badfile" + ConfigFilesJson.readBadFileNamesRecord() + "." + fileExtension;
             destinationFile = new File(appWorkingDirectory, badFileName);
             ConfigFilesJson.makeBadFileNamesRecord(ConfigFilesJson.readBadFileNamesRecord() + 1); // Increment the bad file index
         } else {
+            Log.d("CustomFileManager", "File name is not null");
             // Handle good file
             File destinationFolder = new File(appWorkingDirectory, destinationFileName.substring(0, destinationFileName.lastIndexOf('.')));
             if (!destinationFolder.exists()) {
@@ -87,13 +90,15 @@ public class CustomFileManager {
              OutputStream destination = new FileOutputStream(destinationFile)) {
             byte[] buf = new byte[1024];
             int length;
-            while ((length = source.read(buf)) > 0) {
+            while (true) {
+                assert source != null;
+                if (!((length = source.read(buf)) > 0)) break;
                 destination.write(buf, 0, length);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        Log.d("CustomFileManager", "File copied");
         // Add the new file to the app config
         ConfigFilesJson.addConfig(destinationFileName, destinationFile.getParent(), destinationFile.getAbsolutePath(), fileExtension);
         ConfigFilesJson.saveConfig();
