@@ -2,6 +2,9 @@ package com.serpentech.legacyreader;
 
 import static android.app.Activity.RESULT_OK;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +27,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.serpentech.legacyreader.databinding.FragmentSecondBinding;
 import com.serpentech.legacyreader.filemanagement.ConfigFilesJson;
 import com.serpentech.legacyreader.filemanagement.CustomFileManager;
+
+import java.nio.charset.StandardCharsets;
 
 public class SecondFragment extends Fragment {
 
@@ -60,6 +65,11 @@ public class SecondFragment extends Fragment {
                             String uriPath = getRealPathFromURI(uri);
                             if (uriPath == null) {
                                 uriPath = uri.toString();
+                            }
+                            try {
+                                uriPath = URLDecoder.decode(uriPath, StandardCharsets.UTF_8.name());
+                            } catch (UnsupportedEncodingException e) {
+                                throw new RuntimeException(e);
                             }
 
                             //grab the file name from the URI using last /
