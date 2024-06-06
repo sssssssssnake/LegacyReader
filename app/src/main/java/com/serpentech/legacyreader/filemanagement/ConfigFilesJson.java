@@ -17,7 +17,7 @@ public class ConfigFilesJson {
     static String appWorkingDirectory = CustomFileManager.appWorkingDirectory;
 
     static List<ConfigFile> configuration = new ArrayList<ConfigFile>();
-    static String badFileNamesRecord = "googlebad.json";
+    static String badFileNamesRecord = "googleFilebad.json";
     static public int number = 0;
 
     public static void addConfig(String name, String parentDirectory, String path, String extension) {
@@ -115,6 +115,20 @@ public class ConfigFilesJson {
         }
 
         return number;
+    }
+
+    public static void updateList() {
+        configuration = readConfig(appWorkingDirectory);
+    }
+
+    public static boolean fileInDatabase(String fileName) {
+        updateList();
+        for (ConfigFile file : configuration) {
+            if (file.name.equals(fileName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 

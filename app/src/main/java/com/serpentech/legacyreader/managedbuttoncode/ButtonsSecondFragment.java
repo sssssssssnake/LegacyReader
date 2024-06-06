@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 
@@ -51,6 +52,11 @@ public class ButtonsSecondFragment {
             name = null;
         }
 
+        if (ConfigFilesJson.fileInDatabase(name)) {
+            // Make a Toast to inform the user that the file already exists
+            Toast.makeText(context, "File already exists", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         CustomFileManager.copyFileUri(context, uri, name, uriPath);
 
