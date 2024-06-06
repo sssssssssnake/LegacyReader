@@ -57,7 +57,7 @@ public class CustomFileManager {
         }
         Log.d("CustomFileManager", "File copied");
         // Add the new file to the app config
-        ConfigFilesJson.addConfig(destinationFileName, destinationFile.getParent(), destinationFile.getAbsolutePath(), fileExtension);
+        ConfigFilesJson.addConfig(destinationFile.getName(), destinationFile.getParent(), destinationFile.getAbsolutePath(), fileExtension);
         ConfigFilesJson.saveConfig();
     }
 

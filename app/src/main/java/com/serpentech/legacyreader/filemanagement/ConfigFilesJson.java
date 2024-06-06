@@ -21,6 +21,7 @@ public class ConfigFilesJson {
     static public int number = 0;
 
     public static void addConfig(String name, String parentDirectory, String path, String extension) {
+        configuration = readConfig(appWorkingDirectory);
         configuration.add(new ConfigFile(name, parentDirectory, path, extension));
     }
     public static void saveConfig() {
@@ -47,7 +48,9 @@ public class ConfigFilesJson {
         // Check if the file exists
         if (!Files.exists(Paths.get(filePath))) {
             System.out.println("The configuration file does not exist.");
-            return null;
+            // Handle the case where the file does not exist
+            writeConfig(directoryPath, configuration);
+            return configuration;
         }
 
         // Define the type of the data we want to read
