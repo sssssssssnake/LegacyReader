@@ -8,7 +8,8 @@ public class Main {
 
   static String path = "/home/sssssssssnake/Downloads/22G_Minor22/score.xml";
   static String keyword = "note";
-  static ArrayList<XmlNote> notes = new ArrayList<XmlNote>();
+  static ArrayList<XmlGroup> notes = new ArrayList<XmlGroup>();
+  static ArrayList<String[]> measureHeaders = new ArrayList<String[]>();
 
   static ArrayList<int[]> measureStartEnd = new ArrayList<int[]>();
   public static void main(String[] args) {
@@ -17,8 +18,9 @@ public class Main {
 
     try {
       String xmlContent = new String(Files.readAllBytes(Paths.get(path)));
-      scanXMLForKeywordNoteList(xmlContent, keyword, notes);
+      scanXMLForKeywordList(xmlContent, keyword, notes);
       scanXMLForMeasureStartEnd(xmlContent, measureStartEnd);
+      measureHeaders = grabHeaders(xmlContent, "measure");
      } catch (IOException e) {
       System.err.println("Error reading the file: " + e.getMessage());
     }
@@ -54,6 +56,14 @@ public class Main {
     for (int i = 0; i < 10; i++) {
       print("Start line: " + measureStartEnd.get(i)[0] + " End line: " + measureStartEnd.get(i)[1]);
     }
+
+    // print first 10 measure headers
+    for (int i = 0; i < 10; i++) {
+      for (int j = 0; j < measureHeaders.get(i).length; j++) {
+        print(measureHeaders.get(i)[j] + " " + j);
+      }
+      print("");
+    }
   }
 
 
@@ -67,7 +77,7 @@ public class Main {
 
   }
 
-  public static void scanXMLForKeywordNoteList(String xml, String keyword, ArrayList<XmlNote> notes) {
+  public static void scanXMLForKeywordList(String xml, String keyword, ArrayList<XmlGroup> notes) {
     String patternString = "<" + keyword + ".*?</" + keyword + ">";
     Pattern pattern = Pattern.compile(patternString, Pattern.DOTALL);
     Matcher matcher = pattern.matcher(xml);
@@ -76,7 +86,7 @@ public class Main {
       int startLine = countLines(xml.substring(0, matcher.start())) + 1;
       int endLine = countLines(xml.substring(0, matcher.end()));
 
-      notes.add(new XmlNote(startLine, endLine, match));
+      notes.add(new XmlGroup(startLine, endLine, match));
     }
   }
 
@@ -112,18 +122,44 @@ public class Main {
     return "";
   }
 
+  // Make a method that grabs the headers of the xml text
+  // stuff that is the attribute="value" part of the xml
+  public static ArrayList<String[]> grabHeaders(String data, String keyword) {
+    String patternString = "<" + keyword + "\\s+(.*?)>";
+    Pattern pattern = Pattern.compile(patternString, Pattern.DOTALL);
+    Matcher matcher = pattern.matcher(data);
+    ArrayList<String[]> headers = new ArrayList<>();
 
-  static public class XmlNote {
+    while (matcher.find()) {
+      String headerStr = matcher.group(1);
+      // Split the header string on spaces, except when spaces are within quotes
+      String[] headerPairs = headerStr.split("\\s+(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
+      ArrayList<String[]> headerAttributes = new ArrayList<>();
+      for (String headerPair : headerPairs) {
+        // Split each pair on '=' and remove the quotes from the value
+        String[] keyValue = headerPair.split("=");
+        keyValue[1] = keyValue[1].replaceAll("^\"|\"$", "");
+        headerAttributes.add(keyValue);
+      }
+      headers.addAll(headerAttributes);
+    }
+    return headers;
+  }
+
+
+
+
+  static public class XmlGroup {
     public int startLine;
     public int endLine;
     public String contents;
 
-    public XmlNote (int start, int end, String stuff) {
-	    startLine = start;
-	    endLine = end;
-	    contents = stuff;
+    public XmlGroup (int start, int end, String stuff) {
+      startLine = start;
+      endLine = end;
+      contents = stuff;
     }
+  }
 }
 
-}
 
