@@ -58,4 +58,8 @@ public class MusicSheetView extends View {
 
 
     }
+
+    public void redraw(){
+        invalidate();
+    }
 }

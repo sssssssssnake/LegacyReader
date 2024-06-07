@@ -14,6 +14,7 @@ import com.serpentech.legacyreader.filemanagement.ConfigFilesJson;
 import com.serpentech.legacyreader.filemanagement.ConfigXmlJson;
 import com.serpentech.legacyreader.filemanagement.CustomFileManager;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -28,7 +29,7 @@ public class ButtonsSecondFragment {
         launcher.launch(intent);
     }
 
-    public static void grabUri(Uri uri, Context context) {
+    public static void grabUri(Uri uri, Context context) throws IOException {
 
         String name;
         // log the path to debug

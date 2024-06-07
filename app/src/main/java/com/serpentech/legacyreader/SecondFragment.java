@@ -2,6 +2,7 @@ package com.serpentech.legacyreader;
 
 import static android.app.Activity.RESULT_OK;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -56,7 +57,11 @@ public class SecondFragment extends Fragment {
                         if (data != null) {
                             Uri uri = data.getData();
                             assert uri != null;
-                            ButtonsSecondFragment.grabUri(uri, getContext());
+                            try {
+                                ButtonsSecondFragment.grabUri(uri, getContext());
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
                             // Now you can use the path to manipulate the file
 
                         }

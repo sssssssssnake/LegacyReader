@@ -5,6 +5,7 @@ import java.util.List;
 
 public class MusicObjectified {
     public class Measure {
+        public int staves;
         public int measureNum;
         public int measureLength;
         public int[] measureType;

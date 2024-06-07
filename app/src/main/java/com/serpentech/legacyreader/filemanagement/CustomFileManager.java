@@ -5,17 +5,24 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
+import com.serpentech.legacyreader.filemanagement.xmlmanage.ExtractMxl;
+import com.serpentech.legacyreader.filemanagement.xmlmanage.XmlGrab;
+
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 
 public class CustomFileManager {
 
     public static String appWorkingDirectory = "/storage/emulated/0/Download/LegacyReader/";
 
 
-    public static void copyFileUri(Context context, Uri sourceUri, String destinationFileName, String uriPath) {
+    public static void copyFileUri(Context context, Uri sourceUri, String destinationFileName, String uriPath) throws IOException {
         File destinationFile;
         String fileExtension = "mxl"; // Default extension for bad files
 
@@ -60,11 +67,41 @@ public class CustomFileManager {
         ConfigFilesJson.addConfig(destinationFile.getName(), destinationFile.getParent(), destinationFile.getAbsolutePath(), fileExtension);
         ConfigFilesJson.saveConfig();
 
-        ExtractMxl.unzip(destinationFile.getAbsolutePath(), destinationFile.getParent());
-        Log.d("CustomFileManager", "File unzipped");
+        // look at the extension of the file and unzip it
+        if (fileExtension.equals("mxl")) {
 
+            ExtractMxl.unzip(destinationFile.getAbsolutePath(), destinationFile.getParent());
+            Log.d("CustomFileManager", "File unzipped");
 
-//        ConfigXmlJson.addWorkingFile(new ConfigXmlJson.decompressedXmlFile());
+            // Add the new file to the working directory
+            String mxlConfigurationContent = new String(Files.readAllBytes(Paths.get(destinationFile.getParent() + "/META-INF/container.xml")));
+            XmlGrab xmlGrab = new XmlGrab();
+            xmlGrab.xmlGroups = xmlGrab.scanXMLForKeywordList(mxlConfigurationContent, "rootfiles");
+            List<String[]> rootFiles;
+            rootFiles = xmlGrab.grabHeaders(xmlGrab.xmlGroups.get(0).contents, "rootfile");
+            Log.d("CustomFileManager", rootFiles.get(0)[1] + " yep got it");
+            if (rootFiles.get(0)[1].contains("/")) {
+                ConfigXmlJson.addWorkingFile(new ConfigXmlJson.decompressedXmlFile(
+                        rootFiles.get(0)[1].substring(0, rootFiles.get(0)[1].lastIndexOf('/')),
+                        destinationFile.getAbsolutePath() + "/" + rootFiles.get(0)[1],
+                        // file name
+                        rootFiles.get(0)[1].substring(rootFiles.get(0)[1].lastIndexOf('/') + 1, rootFiles.get(0)[1].lastIndexOf('.')),
+                        // file extension
+                        rootFiles.get(0)[1].substring(rootFiles.get(0)[1].lastIndexOf('.') + 1)
+                ));
+            } else {
+                ConfigXmlJson.addWorkingFile(new ConfigXmlJson.decompressedXmlFile(
+                        "",
+                        destinationFile.getAbsolutePath() + "/" + rootFiles.get(0)[1],
+                        // file name
+                        rootFiles.get(0)[1].substring(0, rootFiles.get(0)[1].lastIndexOf('.')),
+                        // file extension
+                        rootFiles.get(0)[1].substring(rootFiles.get(0)[1].lastIndexOf('.') + 1)
+                ));
+            }
+        } else {
+            Log.d("CustomFileManager", "bad filetype");
+        }
 
     }
 

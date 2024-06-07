@@ -1,4 +1,4 @@
-package com.serpentech.legacyreader.filemanagement;
+package com.serpentech.legacyreader.filemanagement.xmlmanage;
 
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
