@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 
 import com.serpentech.legacyreader.filemanagement.ConfigFilesJson;
+import com.serpentech.legacyreader.filemanagement.ConfigXmlJson;
 import com.serpentech.legacyreader.filemanagement.CustomFileManager;
 
 import java.io.UnsupportedEncodingException;
@@ -54,11 +55,12 @@ public class ButtonsSecondFragment {
 
         if (ConfigFilesJson.fileInDatabase(name)) {
             // Make a Toast to inform the user that the file already exists
-            Toast.makeText(context, "File already exists", Toast.LENGTH_SHORT).show();
-            return;
+            Toast.makeText(context, "File already exists", Toast.LENGTH_LONG).show();
+        } else {
+            CustomFileManager.copyFileUri(context, uri, name, uriPath);
+            Toast.makeText(context, "File copied", Toast.LENGTH_SHORT).show();
         }
 
-        CustomFileManager.copyFileUri(context, uri, name, uriPath);
 
     }
 

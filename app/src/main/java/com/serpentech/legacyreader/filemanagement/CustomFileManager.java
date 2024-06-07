@@ -59,6 +59,13 @@ public class CustomFileManager {
         // Add the new file to the app config
         ConfigFilesJson.addConfig(destinationFile.getName(), destinationFile.getParent(), destinationFile.getAbsolutePath(), fileExtension);
         ConfigFilesJson.saveConfig();
+
+        ExtractMxl.unzip(destinationFile.getAbsolutePath(), destinationFile.getParent());
+        Log.d("CustomFileManager", "File unzipped");
+
+
+//        ConfigXmlJson.addWorkingFile(new ConfigXmlJson.decompressedXmlFile());
+
     }
 
 }

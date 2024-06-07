@@ -31,7 +31,7 @@ public class ConfigFilesJson {
         Gson gson = new Gson();
         String json = gson.toJson(config);
 
-        try (FileWriter writer = new FileWriter(directoryPath + "/config.json")) {
+        try (FileWriter writer = new FileWriter(directoryPath + "config.json")) {
             writer.write(json);
         } catch (IOException e) {
             e.printStackTrace();
@@ -43,7 +43,7 @@ public class ConfigFilesJson {
         List<ConfigFile> configList = null;
 
         // Construct the full path to the JSON file
-        String filePath = directoryPath + "/config.json";
+        String filePath = directoryPath + "config.json";
 
         // Check if the file exists
         if (!Files.exists(Paths.get(filePath))) {
