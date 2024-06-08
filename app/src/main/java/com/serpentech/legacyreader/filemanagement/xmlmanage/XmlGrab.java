@@ -26,8 +26,9 @@ public class XmlGrab {
 
     // make a method that grabs the first and last line of each measure
 
-    public void scanXMLForMeasureStartEnd(String xml, ArrayList<int[]> measureStartEnd) {
-        String patternString = "<measure.*?</measure>";
+    public ArrayList<int[]> scanXMLForKeywordStartEnd(String xml, String keyword ) {
+        ArrayList<int[]> keyWordStartEnd = new ArrayList<>();
+        String patternString = "<" + keyword + ".*?</" + keyword + ">";
         Pattern pattern = Pattern.compile(patternString, Pattern.DOTALL);
         Matcher matcher = pattern.matcher(xml);
         while (matcher.find()) {
@@ -35,8 +36,9 @@ public class XmlGrab {
             int startLine = countLines(xml.substring(0, matcher.start())) + 1;
             int endLine = countLines(xml.substring(0, matcher.end()));
 
-            measureStartEnd.add(new int[] {startLine, endLine});
+            keyWordStartEnd.add(new int[] {startLine, endLine});
         }
+        return keyWordStartEnd;
     }
 
     public int countLines(String str) {

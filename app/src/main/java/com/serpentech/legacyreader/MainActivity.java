@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 2;
     private static final int MY_PERMISSIONS_REQUEST_MANAGE_EXTERNAL_STORAGE = 3;
 
+    public static boolean appropriatePermissions = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +97,13 @@ public class MainActivity extends AppCompatActivity {
                 != PackageManager.PERMISSION_GRANTED) ? "manage Permission denied" : "manage Permission granted"));
         Log.d("MainActivity", ((ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) ? "read Permission denied" : "read Permission granted"));
+
+        appropriatePermissions = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED;
+//        appropriatePermissions = (ContextCompat.checkSelfPermission(this, Manifest.permission.MANAGE_EXTERNAL_STORAGE)
+//                == PackageManager.PERMISSION_GRANTED) && appropriatePermissions;
+        appropriatePermissions = (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED) && appropriatePermissions;
 
 
         binding.fab.setOnClickListener(new View.OnClickListener() {
