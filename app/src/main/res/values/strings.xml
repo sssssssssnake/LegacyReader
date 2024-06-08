@@ -8,8 +8,10 @@
     <string name="previous">Previous</string>
 
     <string name="lorem_ipsum">
-        Hello, If you see this, then that means that you need to allow the app to access your storage.
-        Please restart the app, and a setting popup will appear. Then proceed to select the allow option.
+        Hello, If you see this, then that means that you need to allow the app to access your storage (or you\'ve
+        started the app for the first time).
+        Please restart the app in the former case, and a setting popup will appear. Then proceed to select the allow option.
+        Once the permissions have been handled, this message will disappear on subsequent startups.
         \n
 
 
