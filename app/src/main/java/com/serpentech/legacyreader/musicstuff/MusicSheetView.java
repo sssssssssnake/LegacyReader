@@ -1,5 +1,6 @@
 package com.serpentech.legacyreader.musicstuff;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Canvas;
@@ -9,13 +10,21 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.util.Log;
 
+import com.serpentech.legacyreader.filemanagement.xmlmanage.XmlGrab;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class MusicSheetView extends View {
 
     private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private int viewWidth;
     private int viewHeight;
+    public boolean goodToDrawMusic = false;
     MathStuff mathStuff = new MathStuff();
+    MusicObjectified musicObject = new MusicObjectified();
+    MusicObjectified.Measure testMeasure;
 
     // Constructors
     public MusicSheetView(Context context) {
@@ -53,6 +62,7 @@ public class MusicSheetView extends View {
 
     }
 
+    @SuppressLint("DrawAllocation")
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -60,10 +70,41 @@ public class MusicSheetView extends View {
         paint.setColor(Color.MAGENTA);
         paint.setStrokeWidth(5);
 
-        // Example: Draw a line across the view for testing
-        canvas.drawLine(0, 0, mathStuff.dimentions[0], mathStuff.dimentions[1], paint);
-        // Continue drawing measures and notes here
-        mathStuff.drawSingleMeasurePercentage(canvas, paint, 0.5f, 2);
+        if (!goodToDrawMusic) {
+            // Example: Draw a line across the view for testing
+            canvas.drawLine(0, 0, mathStuff.dimentions[0], mathStuff.dimentions[1], paint);
+            // Continue drawing measures and notes here
+            mathStuff.drawSingleMeasurePercentage(canvas, paint, 0.5f, 2);
+
+            List<MusicObjectified.Note> notes = new ArrayList<>();
+            notes.add(musicObject.new Note(
+                    new int[] {1,4},
+                    musicObject.new SimpleNote('b', 4, 0),
+                    0,
+                    1
+            ));
+            testMeasure = musicObject.new Measure(
+                    1,
+                    4,
+                    new int[] {4,4,},
+                    notes,
+                    3
+            );
+            goodToDrawMusic = true;
+        } else {
+            float[] measureDimensions = mathStuff.estimateMeasureDimentions(testMeasure);
+
+            // Log the measure dimensions
+            Log.d("MusicSheetView", "Measure Dimensions: " + measureDimensions[0] + " x " + measureDimensions[1]);
+
+            // Draw a vertical and horizontal line for testing
+            canvas.drawLine(0, measureDimensions[1], mathStuff.dimentions[0], measureDimensions[1], paint);
+            canvas.drawLine(measureDimensions[0], 0, measureDimensions[0], mathStuff.dimentions[1], paint);
+
+            // Draw the measure
+            mathStuff.drawSingleMeasurePercentage(canvas, paint, measureDimensions[0] / mathStuff.dimentions[0], testMeasure.staves);
+
+        }
 
 
     }

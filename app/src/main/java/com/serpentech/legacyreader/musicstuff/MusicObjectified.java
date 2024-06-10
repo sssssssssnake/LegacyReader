@@ -7,7 +7,7 @@ import java.util.List;
 
 public class MusicObjectified {
     public class Measure {
-        public boolean hasAttributesl;
+        public boolean hasAttributes;
         public int divisions;
         public int staves;
         public int measureNum;
@@ -23,6 +23,13 @@ public class MusicObjectified {
             this.measureType = measureType;
             this.notes = new ArrayList<>();
 
+        }
+        public Measure(int measureNum, int measureLength, int[] measureType, List<Note> notes, int staves) {
+            this.measureNum = measureNum;
+            this.measureLength = measureLength;
+            this.measureType = measureType;
+            this.notes = notes;
+            this.staves = staves;
         }
 
         public void addNote (Note note) {
