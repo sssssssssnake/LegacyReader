@@ -76,10 +76,42 @@ public class MusicObjectified {
                 measureType = new int[]{0, 0};
             }
 
+            // add the notes
+            List<XmlGrab.XmlGroup> notes = xmlGrab.scanXMLForKeywordList(xmlMeasureContent, "note");
+            List<Note> noteList = new ArrayList<>();
+            if (notes.size() > 0) {
+                for (XmlGrab.XmlGroup note : notes) {
+
+                    if (note.contents.contains("pitch") && note.contents.contains("alter")) {
+                        noteList.add(new Note(
+                                new int[]{0, 0},
+                                new SimpleNote(
+                                        xmlGrab.grabContents(note.contents, "step").charAt(0),
+                                        Integer.parseInt(xmlGrab.grabContents(note.contents, "octave")),
+                                        Double.parseDouble(xmlGrab.grabContents(note.contents, "alter"))),
+                                new int[]{0, 0},
+                                0)
+                        );
+                    } else if (note.contents.contains("pitch")) {
+                        noteList.add(new Note(
+                                new int[]{0, 0},
+                                new SimpleNote(
+                                        xmlGrab.grabContents(note.contents, "step").charAt(0),
+                                        Integer.parseInt(xmlGrab.grabContents(note.contents, "octave")),
+                                        0),
+                                new int[]{0, 0},
+                                0)
+                        );
+                    }
+                }
+            }
+
+
+
             this.measureNum = measureNum;
             this.measureLength = measureLength;
             this.measureType = measureType;
-            this.notes = new ArrayList<>();
+            this.notes = noteList;
 
             System.gc();
         }
@@ -88,10 +120,10 @@ public class MusicObjectified {
     public class Note{
         public int [] lengthFraction;
         SimpleNote pitch;
-        public int positionFractionFromMeasureStart;
+        public int[] positionFractionFromMeasureStart;
         int staveNumber;
 
-        public Note (int[] lengthFraction, SimpleNote pitch, int positionFractionFromMeasureStart, int staveNumber) {
+        public Note (int[] lengthFraction, SimpleNote pitch, int[] positionFractionFromMeasureStart, int staveNumber) {
             this.lengthFraction = lengthFraction;
             this.pitch = pitch;
             this.positionFractionFromMeasureStart = positionFractionFromMeasureStart;
@@ -105,9 +137,9 @@ public class MusicObjectified {
     public class SimpleNote {
         public char letterName;
         public int octave;
-        public float alter;
+        public double alter;
 
-        public SimpleNote (char letterName, int octave, int alter) {
+        public SimpleNote (char letterName, int octave, double alter) {
             this.letterName = letterName;
             this.octave = octave;
             this.alter = alter;

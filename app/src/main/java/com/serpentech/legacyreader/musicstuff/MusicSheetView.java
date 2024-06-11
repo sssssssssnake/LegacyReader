@@ -107,7 +107,9 @@ public class MusicSheetView extends View {
                 // read the xml file
                 String xmlContent = CustomFileManager.readFile(measurePath);
                 String measureString = xmlGrab.scanXMLForKeywordList(xmlContent, "measure").get(0).contents;
+//                Log.d("MusicSheetView", "Measure String: " + measureString);
                 testMeasure = musicObject.new Measure(measureString);
+                Log.d("MusicSheetView", "Measure Notes: " + testMeasure.notes.size());
                 goodToDrawMusic = true;
             } else {
                 goodToDrawMusic = false;
@@ -117,6 +119,8 @@ public class MusicSheetView extends View {
 
             // Log the measure dimensions
             Log.d("MusicSheetView", "Measure Dimensions: " + measureDimensions[0] + " x " + measureDimensions[1]);
+
+            Log.d("MusicSheetView", "Number of Notes " + testMeasure.notes.size());
 
             // Draw a vertical and horizontal line for testing
             canvas.drawLine(0, measureDimensions[1], mathStuff.dimentions[0], measureDimensions[1], paint);
