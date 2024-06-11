@@ -83,7 +83,7 @@ public class CustomFileManager {
             if (rootFiles.get(0)[1].contains("/")) {
                 ConfigXmlJson.addWorkingFile(new ConfigXmlJson.decompressedXmlFile(
                         rootFiles.get(0)[1].substring(0, rootFiles.get(0)[1].lastIndexOf('/')),
-                        destinationFile.getAbsolutePath() + "/" + rootFiles.get(0)[1],
+                        destinationFile.getParent() + "/" + rootFiles.get(0)[1].substring(0, rootFiles.get(0)[1].lastIndexOf('/')) + "/" + rootFiles.get(0)[1],
                         // file name
                         rootFiles.get(0)[1].substring(rootFiles.get(0)[1].lastIndexOf('/') + 1, rootFiles.get(0)[1].lastIndexOf('.')),
                         // file extension
@@ -92,7 +92,7 @@ public class CustomFileManager {
             } else {
                 ConfigXmlJson.addWorkingFile(new ConfigXmlJson.decompressedXmlFile(
                         "",
-                        destinationFile.getAbsolutePath() + "/" + rootFiles.get(0)[1],
+                        destinationFile.getParent() + "/" + rootFiles.get(0)[1],
                         // file name
                         rootFiles.get(0)[1].substring(0, rootFiles.get(0)[1].lastIndexOf('.')),
                         // file extension
@@ -103,6 +103,16 @@ public class CustomFileManager {
             Log.d("CustomFileManager", "bad filetype");
         }
 
+    }
+
+    // Method for reading a file given a file path
+    public static String readFile(String filePath) {
+        try {
+            return new String(Files.readAllBytes(Paths.get(filePath)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

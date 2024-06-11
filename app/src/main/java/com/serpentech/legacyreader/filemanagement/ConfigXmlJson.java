@@ -1,9 +1,12 @@
 package com.serpentech.legacyreader.filemanagement;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,9 +29,12 @@ public class ConfigXmlJson {
         Gson gson = new Gson();
         List<decompressedXmlFile> workingFileList = new ArrayList<>();
 
-        try {
-            workingFileList = gson.fromJson(ConfigFilesJson.appWorkingDirectory + "workingFileList.json", List.class);
-        } catch (Exception e) {
+        Type configListType = new TypeToken<List<decompressedXmlFile>>(){}.getType();
+
+        // Read the JSON file and convert it back to a list of Java objects
+        try (FileReader reader = new FileReader(ConfigFilesJson.appWorkingDirectory + "workingFileList.json")) {
+            workingFileList = gson.fromJson(reader, configListType);
+        } catch (IOException e) {
             e.printStackTrace();
         }
 

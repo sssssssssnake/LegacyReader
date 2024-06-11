@@ -6,12 +6,20 @@ import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 import android.util.Log;
 
+import com.caverock.androidsvg.PreserveAspectRatio;
+import com.caverock.androidsvg.SVG;
+import com.caverock.androidsvg.SVGParseException;
+import com.serpentech.legacyreader.R;
+import com.serpentech.legacyreader.filemanagement.ConfigXmlJson;
+import com.serpentech.legacyreader.filemanagement.CustomFileManager;
 import com.serpentech.legacyreader.filemanagement.xmlmanage.XmlGrab;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,21 +84,34 @@ public class MusicSheetView extends View {
             // Continue drawing measures and notes here
             mathStuff.drawSingleMeasurePercentage(canvas, paint, 0.5f, 2);
 
-            List<MusicObjectified.Note> notes = new ArrayList<>();
-            notes.add(musicObject.new Note(
-                    new int[] {1,4},
-                    musicObject.new SimpleNote('b', 4, 0),
-                    0,
-                    1
-            ));
-            testMeasure = musicObject.new Measure(
-                    1,
-                    4,
-                    new int[] {4,4,},
-                    notes,
-                    3
-            );
-            goodToDrawMusic = true;
+//            List<MusicObjectified.Note> notes = new ArrayList<>();
+//            notes.add(musicObject.new Note(
+//                    new int[] {1,4},
+//                    musicObject.new SimpleNote('b', 4, 0),
+//                    0,
+//                    1
+//            ));
+//            testMeasure = musicObject.new Measure(
+//                    1,
+//                    4,
+//                    new int[] {4,4,},
+//                    notes,
+//                    3
+//            );
+            ConfigXmlJson.workingFileList = ConfigXmlJson.readConfigXml();
+            Log.d("MusicSheetView", "Working File List: " + ConfigXmlJson.workingFileList.size());
+            if (!ConfigXmlJson.workingFileList.isEmpty()) {
+                String measurePath = ConfigXmlJson.workingFileList.get(0).fullPath;
+                XmlGrab xmlGrab = new XmlGrab();
+                Log.d("MusicSheetView", "Measure Path: " + measurePath);
+                // read the xml file
+                String xmlContent = CustomFileManager.readFile(measurePath);
+                String measureString = xmlGrab.scanXMLForKeywordList(xmlContent, "measure").get(0).contents;
+                testMeasure = musicObject.new Measure(measureString);
+                goodToDrawMusic = true;
+            } else {
+                goodToDrawMusic = false;
+            }
         } else {
             float[] measureDimensions = mathStuff.estimateMeasureDimentions(testMeasure);
 
@@ -103,6 +124,23 @@ public class MusicSheetView extends View {
 
             // Draw the measure
             mathStuff.drawSingleMeasurePercentage(canvas, paint, measureDimensions[0] / mathStuff.dimentions[0], testMeasure.staves);
+            SVG svg = null;
+            try {
+                svg = SVG.getFromResource(getContext(), R.raw.firstnote);
+                RectF viewBox = new RectF(0,0,10f,10f);
+
+                // Set the SVG to fit within the bounding box
+                svg.setDocumentViewBox(0, 0, .1f/viewBox.width(), .1f/viewBox.height());
+                // Log the width and height of the SVG
+                Log.d("MusicSheetView", "SVG Width: " + viewBox.width() + " Height: " + viewBox.height());
+                svg.setDocumentPreserveAspectRatio(PreserveAspectRatio.LETTERBOX);
+
+
+                // Now render the SVG to the canvas
+                svg.renderToCanvas(canvas, viewBox);
+            } catch (SVGParseException e) {
+                throw new RuntimeException(e);
+            }
 
         }
 
