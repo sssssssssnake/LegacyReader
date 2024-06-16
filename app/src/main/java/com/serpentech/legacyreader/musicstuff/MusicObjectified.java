@@ -100,7 +100,7 @@ public class MusicObjectified {
                                         Integer.parseInt(xmlGrab.grabContents(note.contents, "octave")),
                                         0),
                                 new int[]{0, 0},
-                                0)
+                                Integer.parseInt(xmlGrab.grabContents(note.contents, "staff")))
                         );
                     }
                 }
