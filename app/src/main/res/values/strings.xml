@@ -2,7 +2,7 @@
     <string name="app_name">LegacyReader</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
+    <string name="first_fragment_label">Intro Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
@@ -29,4 +29,5 @@
     <string name="nextSheet">Next Sheet</string>
     <string name="back">Back</string>
     <string name="filegrab">Grab a File</string>
+    <string name="chooser_fragment_label">Choose A File</string>
 </resources>

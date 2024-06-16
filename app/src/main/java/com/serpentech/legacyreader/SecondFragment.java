@@ -77,7 +77,7 @@ public class SecondFragment extends Fragment {
 
         binding.backButton.setOnClickListener(v ->
                 NavHostFragment.findNavController(SecondFragment.this)
-                        .navigate(R.id.action_SecondFragment_to_FirstFragment)
+                        .navigate(R.id.action_SecondFragment_to_IntroFragment)
         );
     }
 

@@ -40,17 +40,17 @@ public class IntroFragment extends Fragment {
 
         binding.buttonFirst.setOnClickListener(v ->
                 NavHostFragment.findNavController(IntroFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_SecondFragment)
+                        .navigate(R.id.action_IntroFragment_to_SecondFragment)
         );
         if (MainActivity.appropriatePermissions) {
             // Corrected navigation call
             NavHostFragment.findNavController(IntroFragment.this)
-                    .navigate(R.id.action_FirstFragment_to_SecondFragment);
+                    .navigate(R.id.action_IntroFragment_to_SecondFragment);
         } else if ((ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED )&& (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED)) {
             NavHostFragment.findNavController(IntroFragment.this)
-                    .navigate(R.id.action_FirstFragment_to_SecondFragment);
+                    .navigate(R.id.action_IntroFragment_to_SecondFragment);
 
         }
         Log.d("IntroFragment", "onViewCreated: " + MainActivity.appropriatePermissions);
