@@ -29,7 +29,7 @@ public class MyChooseFileRecyclerViewAdapter extends RecyclerView.Adapter<MyChoo
             musicEntries.add(
                     new MusicEntry(
                             (musicEntries.size() + 1)+ "",
-                            file.fileName,
+                            file.musicFileName,
                             file.fullPath
                     )
             );

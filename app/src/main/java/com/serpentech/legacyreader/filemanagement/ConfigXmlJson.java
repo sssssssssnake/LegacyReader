@@ -51,16 +51,18 @@ public class ConfigXmlJson {
 
 
     public static class decompressedXmlFile {
+        public String musicFileName;
         public String folderPath;
         public String fullPath;
         public String fileName;
         public String fileExtension;
 
-        public decompressedXmlFile(String folderPath, String fullPath, String fileName, String fileExtension) {
+        public decompressedXmlFile(String folderPath, String fullPath, String fileName, String fileExtension, String musicFileName) {
             this.folderPath = folderPath;
             this.fullPath = fullPath;
             this.fileName = fileName;
             this.fileExtension = fileExtension;
+            this.musicFileName = musicFileName;
         }
 
 

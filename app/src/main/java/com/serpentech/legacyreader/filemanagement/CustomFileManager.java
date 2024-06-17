@@ -15,7 +15,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
+
+import org.apache.commons.text.StringEscapeUtils;
 
 public class CustomFileManager {
 
@@ -79,26 +82,30 @@ public class CustomFileManager {
             xmlGrab.xmlGroups = xmlGrab.scanXMLForKeywordList(mxlConfigurationContent, "rootfiles");
             List<String[]> rootFiles;
             rootFiles = xmlGrab.grabHeaders(xmlGrab.xmlGroups.get(0).contents, "rootfile");
-            Log.d("CustomFileManager", rootFiles.get(0)[1] + " yep got it");
-            if (rootFiles.get(0)[1].contains("/")) {
-                ConfigXmlJson.addWorkingFile(new ConfigXmlJson.decompressedXmlFile(
-                        rootFiles.get(0)[1].substring(0, rootFiles.get(0)[1].lastIndexOf('/')),
-                        destinationFile.getParent() + "/" + rootFiles.get(0)[1].substring(0, rootFiles.get(0)[1].lastIndexOf('/')) + "/" + rootFiles.get(0)[1],
-                        // file name
-                        rootFiles.get(0)[1].substring(rootFiles.get(0)[1].lastIndexOf('/') + 1, rootFiles.get(0)[1].lastIndexOf('.')),
-                        // file extension
-                        rootFiles.get(0)[1].substring(rootFiles.get(0)[1].lastIndexOf('.') + 1)
-                ));
-            } else {
-                ConfigXmlJson.addWorkingFile(new ConfigXmlJson.decompressedXmlFile(
-                        "",
-                        destinationFile.getParent() + "/" + rootFiles.get(0)[1],
-                        // file name
-                        rootFiles.get(0)[1].substring(0, rootFiles.get(0)[1].lastIndexOf('.')),
-                        // file extension
-                        rootFiles.get(0)[1].substring(rootFiles.get(0)[1].lastIndexOf('.') + 1)
-                ));
+            String filePath = "";
+            for (String[] rootFile : rootFiles) {
+                if (rootFile[1].contains(".xml")) {
+                    filePath = destinationFile.getParent() + "/" + rootFile[1];
+                }
             }
+            String musicFile = new String(Files.readAllBytes(Paths.get(filePath)));
+            String musicFileName = xmlGrab.grabContents(musicFile, "work-title");
+            musicFileName = StringEscapeUtils.unescapeHtml4(musicFileName);
+            Log.d("CustomFileManager", rootFiles.get(0)[1] + " yep got it");
+            System.gc();
+            // Add the new file to the app config
+            ConfigXmlJson.addWorkingFile(new ConfigXmlJson.decompressedXmlFile(
+                    // folder path
+                    filePath.substring(0, filePath.lastIndexOf('/')),
+                    // full path
+                    filePath,
+                    // file name
+                    rootFiles.get(0)[1],
+                    // file extension
+                    rootFiles.get(0)[1].substring(rootFiles.get(0)[1].lastIndexOf('.') + 1),
+                    // music file name
+                    musicFileName
+            ));
         } else {
             Log.d("CustomFileManager", "bad filetype");
         }
