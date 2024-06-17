@@ -70,7 +70,7 @@ public class SecondFragment extends Fragment {
         );
 
         binding.buttonSecond.setOnClickListener(v -> {
-            ;
+
 
             ButtonsSecondFragment.processFile(fileChooserLauncher, getContext());
         });

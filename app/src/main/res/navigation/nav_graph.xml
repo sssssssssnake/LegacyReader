@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_IntroFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
+        <action
+            android:id="@+id/action_Intro_to_FileChoose"
+            app:destination="@id/ChooserFragment" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -27,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/ChooserFragment"
-        android:name="com.serpentech.legacyreader.ChooseFileFragment"
+        android:name="com.serpentech.legacyreader.chooseafile.ChooseFileFragment"
         android:label="@string/chooser_fragment_label"
         tools:layout="@layout/fragment_filechoose">
 

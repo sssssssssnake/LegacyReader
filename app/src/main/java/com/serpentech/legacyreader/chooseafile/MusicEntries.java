@@ -1,4 +1,4 @@
-package com.serpentech.legacyreader.placeholder;
+package com.serpentech.legacyreader.chooseafile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,12 +14,12 @@ import java.util.Map;
 public class MusicEntries {
 
     /**
-     * An array of sample (placeholder) items.
+     * An array of sample (chooseafile) items.
      */
     public static final List<MusicEntry> ITEMS = new ArrayList<MusicEntry>();
 
     /**
-     * A map of sample (placeholder) items, by ID.
+     * A map of sample (chooseafile) items, by ID.
      */
     public static final Map<String, MusicEntry> ITEM_MAP = new HashMap<String, MusicEntry>();
 
@@ -51,7 +51,7 @@ public class MusicEntries {
     }
 
     /**
-     * A placeholder item representing a piece of content.
+     * A chooseafile item representing a piece of content.
      */
     public static class MusicEntry {
         public String id;

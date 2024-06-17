@@ -1,4 +1,4 @@
-package com.serpentech.legacyreader;
+package com.serpentech.legacyreader.chooseafile;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -7,12 +7,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.serpentech.legacyreader.placeholder.MusicEntries;
+import com.serpentech.legacyreader.R;
 
 /**
  * A fragment representing a list of Items.

@@ -42,17 +42,21 @@ public class IntroFragment extends Fragment {
                 NavHostFragment.findNavController(IntroFragment.this)
                         .navigate(R.id.action_IntroFragment_to_SecondFragment)
         );
-        if (MainActivity.appropriatePermissions) {
-            // Corrected navigation call
-            NavHostFragment.findNavController(IntroFragment.this)
-                    .navigate(R.id.action_IntroFragment_to_SecondFragment);
-        } else if ((ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED )&& (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED)) {
-            NavHostFragment.findNavController(IntroFragment.this)
-                    .navigate(R.id.action_IntroFragment_to_SecondFragment);
-
-        }
+        binding.choose.setOnClickListener(v ->
+                NavHostFragment.findNavController(IntroFragment.this)
+                        .navigate(R.id.action_Intro_to_FileChoose)
+        );
+//        if (MainActivity.appropriatePermissions) {
+//            // Corrected navigation call
+//            NavHostFragment.findNavController(IntroFragment.this)
+//                    .navigate(R.id.action_IntroFragment_to_SecondFragment);
+//        } else if ((ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//                == PackageManager.PERMISSION_GRANTED )&& (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//                == PackageManager.PERMISSION_GRANTED)) {
+//            NavHostFragment.findNavController(IntroFragment.this)
+//                    .navigate(R.id.action_IntroFragment_to_SecondFragment);
+//
+//        }
         Log.d("IntroFragment", "onViewCreated: " + MainActivity.appropriatePermissions);
         Log.d("IntroFragment", "onViewCreated: " + ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE));
         Log.d("IntroFragment", "onViewCreated: " + ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE));

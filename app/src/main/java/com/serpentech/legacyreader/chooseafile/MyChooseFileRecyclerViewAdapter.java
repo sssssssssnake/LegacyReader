@@ -1,14 +1,16 @@
-package com.serpentech.legacyreader;
+package com.serpentech.legacyreader.chooseafile;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.serpentech.legacyreader.placeholder.MusicEntries.MusicEntry;
+import com.serpentech.legacyreader.chooseafile.MusicEntries.MusicEntry;
 import com.serpentech.legacyreader.databinding.FragmentFilechooseBinding;
+import com.serpentech.legacyreader.filemanagement.ConfigXmlJson;
+import com.serpentech.legacyreader.filemanagement.xmlmanage.XmlGrab;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,16 +20,36 @@ import java.util.List;
 public class MyChooseFileRecyclerViewAdapter extends RecyclerView.Adapter<MyChooseFileRecyclerViewAdapter.ViewHolder> {
 
     private final List<MusicEntry> mValues;
+    XmlGrab xmlGrab = new XmlGrab();
 
     public MyChooseFileRecyclerViewAdapter(List<MusicEntry> items) {
-        mValues = items;
+        ConfigXmlJson.workingFileList = ConfigXmlJson.readConfigXml();
+        List<MusicEntry> musicEntries = new ArrayList<>();
+        for (ConfigXmlJson.decompressedXmlFile file : ConfigXmlJson.workingFileList) {
+            musicEntries.add(
+                    new MusicEntry(
+                            (musicEntries.size() + 1)+ "",
+                            file.fileName,
+                            file.fullPath
+                    )
+            );
+        }
+//        if (!(items == null)) {
+//            mValues = items;
+//        } else {
+//            mValues = musicEntries;
+//        }
+        mValues = musicEntries;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        return new ViewHolder(FragmentFilechooseBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
-
+        return new ViewHolder(
+                FragmentFilechooseBinding.inflate(
+                        LayoutInflater.from(parent.getContext()),
+                        parent,
+                        false)
+        );
     }
 
     @Override
@@ -45,17 +67,22 @@ public class MyChooseFileRecyclerViewAdapter extends RecyclerView.Adapter<MyChoo
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView mIdView;
         public final TextView mContentView;
+        public final TextView mDescriptionView;
         public MusicEntry mItem;
 
         public ViewHolder(FragmentFilechooseBinding binding) {
             super(binding.getRoot());
-            mIdView = binding.itemNumber;
-            mContentView = binding.content;
+            mIdView = binding.number;
+            mContentView = binding.name;
+            mDescriptionView = binding.description;
         }
 
         @Override
         public String toString() {
             return super.toString() + " '" + mContentView.getText() + "'";
         }
+    }
+    public int getMusicEntryCount() {
+        return mValues.size();
     }
 }
