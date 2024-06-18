@@ -14,6 +14,7 @@ public class MusicObjectified {
         public int measureNum;
         public int measureLength;
         public int[] measureType;
+        public List<StaveClef> staveClefs;
 
         public SimpleNote key;
         public List<Note> notes;
@@ -75,6 +76,47 @@ public class MusicObjectified {
                 measureType = new int[]{measureLength, Integer.parseInt(measureTypeString)};
             } else {
                 measureType = new int[]{0, 0};
+            }
+
+            // add clefs
+            if (xmlMeasureContent.contains("clef")) {
+                // grab the headers for the stave clef
+                List<XmlGrab.XmlGroup> clef = xmlGrab.scanXMLForKeywordList(xmlMeasureContent, "clef");
+
+                for (XmlGrab.XmlGroup clefGroup : clef) {
+                    int staveNum = 0;
+                    Clef clefType;
+                    // look at headers for stave number
+                    List<String[]> clefHeaders = xmlGrab.grabHeaders(clefGroup.contents, "clef");
+                    for (String[] header : clefHeaders) {
+                        if (header[0].equals("number")) {
+                            staveNum = Integer.parseInt(header[1]);
+                        }
+                    }
+                    // look at contents for clef type
+                    String clefString = xmlGrab.grabContents(clefGroup.contents, "sign");
+                    int lineNum = Integer.parseInt(xmlGrab.grabContents(clefGroup.contents, "line"));
+
+                    switch (clefString.charAt(0)) {
+                        case 'T':
+                            clefType = Clef.treble;
+                            break;
+                        case 'B':
+                            clefType = Clef.bass;
+                            break;
+                        case 'C':
+                            if (lineNum == 3) {
+                                clefType = Clef.alto;
+                            } else {
+                                clefType = Clef.tenor;
+                            }
+                            break;
+                        default:
+                            clefType = Clef.none;
+                            break;
+                    }
+                    this.staveClefs.add(new StaveClef(clefType, staveNum, lineNum));
+                }
             }
 
             // add the notes
@@ -146,6 +188,26 @@ public class MusicObjectified {
             this.alter = alter;
         }
 
+
+    }
+    public enum Clef {
+        treble,
+        bass,
+        alto,
+        tenor,
+        none
+    }
+
+    public class StaveClef {
+        public Clef clef;
+        public int staveNumber;
+        public int lineNumber;
+
+        public StaveClef (Clef clef, int staveNumber, int lineNumber) {
+            this.clef = clef;
+            this.staveNumber = staveNumber;
+            this.lineNumber = lineNumber;
+        }
 
     }
 
