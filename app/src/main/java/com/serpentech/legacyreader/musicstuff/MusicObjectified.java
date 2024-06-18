@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MusicObjectified {
+    List<Measure> measures;
     public class Measure {
         public boolean hasAttributes;
         public int divisions;
