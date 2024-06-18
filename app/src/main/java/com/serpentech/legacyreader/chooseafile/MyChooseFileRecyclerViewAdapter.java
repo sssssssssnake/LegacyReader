@@ -1,10 +1,16 @@
 package com.serpentech.legacyreader.chooseafile;
 
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.serpentech.legacyreader.R;
+import com.serpentech.legacyreader.StaticStuff;
 import com.serpentech.legacyreader.chooseafile.MusicEntries.MusicEntry;
 import com.serpentech.legacyreader.databinding.FragmentFilechooseBinding;
 import com.serpentech.legacyreader.filemanagement.ConfigXmlJson;
@@ -13,10 +19,7 @@ import com.serpentech.legacyreader.filemanagement.xmlmanage.XmlGrab;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link MusicEntry}.
- * TODO: Replace the implementation with code for your data type.
- */
+
 public class MyChooseFileRecyclerViewAdapter extends RecyclerView.Adapter<MyChooseFileRecyclerViewAdapter.ViewHolder> {
 
     private final List<MusicEntry> mValues;
@@ -57,6 +60,18 @@ public class MyChooseFileRecyclerViewAdapter extends RecyclerView.Adapter<MyChoo
         holder.mItem = mValues.get(position);
         holder.mIdView.setText(mValues.get(position).id);
         holder.mContentView.setText(mValues.get(position).filename);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StaticStuff.chosenFile = holder.mItem;
+                Log.d("AdapterLogic", StaticStuff.chosenFile.filepath);
+
+                // go to SecondFragment
+                Navigation.findNavController(v).navigate(R.id.action_ChooseToSecond);
+            }
+        }
+        );
     }
 
     @Override
