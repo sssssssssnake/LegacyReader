@@ -115,6 +115,7 @@ public class Song {
         public BasicNote keySignature;
         public BasicNote[] customKeySignatureList;
         public List<Note> notes;
+        public List<StaveClef> staveClefs;
         public int totalLength;
 
 
@@ -132,7 +133,43 @@ public class Song {
                     this.divisions = 0;
                 }
                 if (xmlContent.contains("clef")) {
-                    this.staves = xmlGrab.scanXMLForKeywordStartEnd(xmlContent, "clef").size();
+                    List<XmlGrab.XmlGroup> clefs = xmlGrab.scanXMLForKeywordList(xmlContent, "clef");
+                    this.staves = clefs.size();
+                    for (XmlGrab.XmlGroup clef : clefs) {
+                        int staveNum = 0;
+                        Clef clefType;
+                        // look at headers for stave number
+                        List<String[]> clefHeaders = xmlGrab.grabHeaders(clef.contents, "clef");
+                        for (String[] header : clefHeaders) {
+                            if (header[0].equals("number")) {
+                                staveNum = Integer.parseInt(header[1]);
+                            }
+                        }
+                        // look at contents for clef type
+                        String clefString = xmlGrab.grabContents(clef.contents, "sign");
+                        int lineNum = Integer.parseInt(xmlGrab.grabContents(clef.contents, "line"));
+
+                        switch (clefString.charAt(0)) {
+                            case 'T':
+                                clefType = Clef.treble;
+                                break;
+                            case 'B':
+                                clefType = Clef.bass;
+                                break;
+                            case 'C':
+                                if (lineNum == 3) {
+                                    clefType = Clef.alto;
+                                } else {
+                                    clefType = Clef.tenor;
+                                }
+                                break;
+                            default:
+                                clefType = Clef.none;
+                                break;
+                        }
+                        this.staveClefs.add(new StaveClef(clefType, staveNum, lineNum));
+                    
+                    }
                 } else {
                     this.staves = 0;
                 }
@@ -314,4 +351,27 @@ public class Song {
             this.alter = alter;
         }
     }
+
+    public enum Clef {
+        treble,
+        bass,
+        alto,
+        tenor,
+        none
+    }
+
+    public class StaveClef {
+        public Clef clef;
+        public int staveNumber;
+        public int lineNumber;
+
+        public StaveClef (Clef clef, int staveNumber, int lineNumber) {
+            this.clef = clef;
+            this.staveNumber = staveNumber;
+            this.lineNumber = lineNumber;
+        }
+
+    }
+
+
 }

@@ -7,6 +7,15 @@ import java.util.List;
 
 public class MusicObjectified {
     List<Measure> measures;
+
+    public enum Clef {
+        treble,
+        bass,
+        alto,
+        tenor,
+        none
+    }
+
     public class Measure {
         public boolean hasAttributes;
         public int divisions;
@@ -19,13 +28,14 @@ public class MusicObjectified {
         public SimpleNote key;
         public List<Note> notes;
 
-        public Measure (int measureNum, int measureLength, int[] measureType) {
+        public Measure(int measureNum, int measureLength, int[] measureType) {
             this.measureNum = measureNum;
             this.measureLength = measureLength;
             this.measureType = measureType;
             this.notes = new ArrayList<>();
 
         }
+
         public Measure(int measureNum, int measureLength, int[] measureType, List<Note> notes, int staves) {
             this.measureNum = measureNum;
             this.measureLength = measureLength;
@@ -34,13 +44,7 @@ public class MusicObjectified {
             this.staves = staves;
         }
 
-        public void addNote (Note note) {
-            this.notes.add(note);
-        }
-        public void addKey (SimpleNote key) {
-            this.key = key;
-        }
-        public Measure (String xmlMeasureContent) {
+        public Measure(String xmlMeasureContent) {
             int measureNum = 0;
 
             int measureLength;
@@ -150,7 +154,6 @@ public class MusicObjectified {
             }
 
 
-
             this.measureNum = measureNum;
             this.measureLength = measureLength;
             this.measureType = measureType;
@@ -158,15 +161,23 @@ public class MusicObjectified {
 
             System.gc();
         }
+
+        public void addNote(Note note) {
+            this.notes.add(note);
+        }
+
+        public void addKey(SimpleNote key) {
+            this.key = key;
+        }
     }
 
-    public class Note{
-        public int [] lengthFraction;
-        SimpleNote pitch;
+    public class Note {
+        public int[] lengthFraction;
         public int[] positionFractionFromMeasureStart;
+        SimpleNote pitch;
         int staveNumber;
 
-        public Note (int[] lengthFraction, SimpleNote pitch, int[] positionFractionFromMeasureStart, int staveNumber) {
+        public Note(int[] lengthFraction, SimpleNote pitch, int[] positionFractionFromMeasureStart, int staveNumber) {
             this.lengthFraction = lengthFraction;
             this.pitch = pitch;
             this.positionFractionFromMeasureStart = positionFractionFromMeasureStart;
@@ -174,15 +185,14 @@ public class MusicObjectified {
         }
 
 
-
-
     }
+
     public class SimpleNote {
         public char letterName;
         public int octave;
         public double alter;
 
-        public SimpleNote (char letterName, int octave, double alter) {
+        public SimpleNote(char letterName, int octave, double alter) {
             this.letterName = letterName;
             this.octave = octave;
             this.alter = alter;
@@ -190,28 +200,19 @@ public class MusicObjectified {
 
 
     }
-    public enum Clef {
-        treble,
-        bass,
-        alto,
-        tenor,
-        none
-    }
 
     public class StaveClef {
         public Clef clef;
         public int staveNumber;
         public int lineNumber;
 
-        public StaveClef (Clef clef, int staveNumber, int lineNumber) {
+        public StaveClef(Clef clef, int staveNumber, int lineNumber) {
             this.clef = clef;
             this.staveNumber = staveNumber;
             this.lineNumber = lineNumber;
         }
 
     }
-
-
 
 
 }
