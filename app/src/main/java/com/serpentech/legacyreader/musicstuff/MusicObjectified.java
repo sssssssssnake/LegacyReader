@@ -1,16 +1,20 @@
 package com.serpentech.legacyreader.musicstuff;
 
+import com.serpentech.legacyreader.filemanagement.xmlmanage.XmlGrab;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class MusicObjectified {
     public class Measure {
+        public boolean hasAttributes;
+        public int divisions;
         public int staves;
         public int measureNum;
         public int measureLength;
         public int[] measureType;
 
-        public List<SimpleNote> key;
+        public SimpleNote key;
         public List<Note> notes;
 
         public Measure (int measureNum, int measureLength, int[] measureType) {
@@ -20,21 +24,111 @@ public class MusicObjectified {
             this.notes = new ArrayList<>();
 
         }
+        public Measure(int measureNum, int measureLength, int[] measureType, List<Note> notes, int staves) {
+            this.measureNum = measureNum;
+            this.measureLength = measureLength;
+            this.measureType = measureType;
+            this.notes = notes;
+            this.staves = staves;
+        }
 
         public void addNote (Note note) {
             this.notes.add(note);
+        }
+        public void addKey (SimpleNote key) {
+            this.key = key;
+        }
+        public Measure (String xmlMeasureContent) {
+            int measureNum = 0;
+
+            int measureLength;
+            int[] measureType;
+            XmlGrab xmlGrab = new XmlGrab();
+
+            // we need to grab the contents from an xml parcel
+            List<String[]> measureHeaders = xmlGrab.grabHeaders(xmlMeasureContent, "measure");
+            for (String[] header : measureHeaders) {
+                if (header[0].equals("number")) {
+                    measureNum = Integer.parseInt(header[1]);
+                }
+            }
+            String divisonsString = null;
+            if (xmlMeasureContent.contains("divisions")) {
+                divisonsString = xmlGrab.grabContents(xmlMeasureContent, "divisions");
+                divisions = Integer.parseInt(divisonsString);
+            } else {
+                divisions = 0;
+            }
+
+            String measureLengthString;
+            if (xmlMeasureContent.contains("beats")) {
+                measureLengthString = xmlGrab.grabContents(xmlMeasureContent, "beats");
+                measureLength = Integer.parseInt(measureLengthString);
+            } else {
+                measureLength = 0;
+            }
+
+            String measureTypeString;
+            if (xmlMeasureContent.contains("beat-type")) {
+                measureTypeString = xmlGrab.grabContents(xmlMeasureContent, "beat-type");
+                measureType = new int[]{measureLength, Integer.parseInt(measureTypeString)};
+            } else {
+                measureType = new int[]{0, 0};
+            }
+
+            // add the notes
+            List<XmlGrab.XmlGroup> notes = xmlGrab.scanXMLForKeywordList(xmlMeasureContent, "note");
+            List<Note> noteList = new ArrayList<>();
+            if (notes.size() > 0) {
+                for (XmlGrab.XmlGroup note : notes) {
+
+                    if (note.contents.contains("pitch") && note.contents.contains("alter")) {
+                        noteList.add(new Note(
+                                new int[]{0, 0},
+                                new SimpleNote(
+                                        xmlGrab.grabContents(note.contents, "step").charAt(0),
+                                        Integer.parseInt(xmlGrab.grabContents(note.contents, "octave")),
+                                        Double.parseDouble(xmlGrab.grabContents(note.contents, "alter"))),
+                                new int[]{0, 0},
+                                0)
+                        );
+                    } else if (note.contents.contains("pitch")) {
+                        noteList.add(new Note(
+                                new int[]{0, 0},
+                                new SimpleNote(
+                                        xmlGrab.grabContents(note.contents, "step").charAt(0),
+                                        Integer.parseInt(xmlGrab.grabContents(note.contents, "octave")),
+                                        0),
+                                new int[]{0, 0},
+                                Integer.parseInt(xmlGrab.grabContents(note.contents, "staff")))
+                        );
+                    }
+                }
+            }
+
+
+
+            this.measureNum = measureNum;
+            this.measureLength = measureLength;
+            this.measureType = measureType;
+            this.notes = noteList;
+
+            System.gc();
         }
     }
 
     public class Note{
         public int [] lengthFraction;
-        public char letterName;
-        public float alter;
-        public int octave;
-        public int positionFractionFromMeasureStart;
-        public int centOffset;
+        SimpleNote pitch;
+        public int[] positionFractionFromMeasureStart;
+        int staveNumber;
 
-
+        public Note (int[] lengthFraction, SimpleNote pitch, int[] positionFractionFromMeasureStart, int staveNumber) {
+            this.lengthFraction = lengthFraction;
+            this.pitch = pitch;
+            this.positionFractionFromMeasureStart = positionFractionFromMeasureStart;
+            this.staveNumber = staveNumber;
+        }
 
 
 
@@ -43,16 +137,18 @@ public class MusicObjectified {
     public class SimpleNote {
         public char letterName;
         public int octave;
-        public int sharpCount;
-        public int flatCount;
+        public double alter;
 
-        public SimpleNote (char letterName, int octave, int sharp, int flat) {
+        public SimpleNote (char letterName, int octave, double alter) {
             this.letterName = letterName;
             this.octave = octave;
-            this.sharpCount = sharp;
-            this.flatCount = flat;
+            this.alter = alter;
         }
 
+
     }
+
+
+
 
 }

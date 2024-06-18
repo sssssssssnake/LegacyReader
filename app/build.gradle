@@ -39,6 +39,10 @@ dependencies {
     implementation libs.navigation.fragment
     implementation libs.navigation.ui
     implementation libs.gson
+    implementation libs.androidsvg
+    implementation libs.legacy.support.v4
+    implementation libs.recyclerview
+    implementation libs.commons.text
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core

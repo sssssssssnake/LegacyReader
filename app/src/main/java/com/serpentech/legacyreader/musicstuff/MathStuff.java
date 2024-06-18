@@ -13,10 +13,10 @@ public class MathStuff {
 
     // there is staff seperation, line seperation, part seperation and note seperation
 
-    int noteSpace = 5;
+    int noteSpace = 10;
     int lineSpace = 10;
     int partSpace = 30;
-    int staffSpace = (lineSpace * 5 ) + 20;
+    int staffSpace = (lineSpace * 4) + 40;
     public double densityOfPixels;
     boolean darkMode;
 
@@ -33,7 +33,7 @@ public class MathStuff {
     public void drawSingleMeasurePercentage(Canvas canvas, Paint paint, float percentWidth, int numberOfStaves) {
         // starting variables
         Log.d("MathStuff", "Physical width: " + dimentions[0] + "px");
-        int currentStaveY = 15;
+        int currentStaveY = 0;
         int currentLineY = 0;
         int stoppingPoint = Math.round(percentWidth * dimentions[0]);
         int lowestLine = 0;
@@ -71,11 +71,34 @@ public class MathStuff {
         // draw the virtical line at the end of the measure
         canvas.drawLine(
                 stoppingPoint,
-                15,
+                0,
                 stoppingPoint,
                 lowestLine,
                 paint
         );
+    }
+    public void drawMovingMeasure(Canvas canvas, Paint paint, float[] startingCoordinates, MusicObjectified.Measure measure) {
+
+    }
+    public float[] estimateMeasureDimentions(MusicObjectified.Measure measure) {
+        float[] dimentions = new float[2];
+        dimentions[0] = 0;
+        dimentions[1] = 0;
+        int staveNumber = measure.staves;
+        float height = 0;
+        float width = 0;
+
+        // find how many stave breaks there are
+
+        height = (staveNumber-1) * dpToPx(staffSpace);
+        height += 4 * dpToPx(lineSpace);
+
+        width = measure.notes.size() * dpToPx(noteSpace);
+
+
+
+
+        return new float[]{width, height};
     }
 
 //    public void drawSingleMeasure(Canvas canvas, Paint paint, float percentWidth, int numberOfStaves) {
