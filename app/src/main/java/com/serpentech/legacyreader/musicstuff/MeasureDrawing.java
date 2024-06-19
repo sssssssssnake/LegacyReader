@@ -105,7 +105,6 @@ public class MeasureDrawing {
             int screenWidth = StaticStuff.musicSheetViewDimensionsPx[0];
             // NOTE: the pixels are arranged game-like Positive x, negative y; mathematically
 
-            // TODO: make this a loop accounting for the end of the song
             // get the current measure and look at the width and then add that to the running width total
             if ((currentMeasure != measures.size()) && !toobig) {
                 int newLineWidth;
