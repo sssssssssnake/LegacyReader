@@ -107,15 +107,28 @@ public class MeasureDrawing {
 
             // TODO: make this a loop accounting for the end of the song
             // get the current measure and look at the width and then add that to the running width total
-            if (currentMeasure != measures.size() && !toobig) {
+            if ((currentMeasure != measures.size()) && !toobig) {
                 int newLineWidth;
-                newLineWidth = currentLineWidth + Math.round(estimateMeasureDimensions(measures.get(currentMeasure).measure)[0]);
+                newLineWidth = currentLineWidth + Math.round(estimateMeasureDimensions(song.measures.get(currentMeasure))[0]);
                 if (newLineWidth > screenWidth) {
                     toobig = true;
                 } else {
+                    // add the measure to the list and move on
+                    measures.add(new MeasureForDrawing(song.measures.get(currentMeasure)));
                     currentLineWidth = newLineWidth;
+                    currentMeasure++;
                 }
+            } else if ((currentMeasure == measures.size()) && !toobig) {
+                // the song is at its end and we need a double bar and we don't need any more lines for viewing the song.
+                doublebar = true;
+                StaticStuff.needNewLine = false;
+            } else if ((currentMeasure != measures.size()) && toobig) {
+                // The line is now too big, and we can now stop and start a new one
+                doublebar = false;
+                StaticStuff.needNewLine = true;
             }
+
+            StaticStuff.lastLineMeasureNumber = currentMeasure;
 
 
         }

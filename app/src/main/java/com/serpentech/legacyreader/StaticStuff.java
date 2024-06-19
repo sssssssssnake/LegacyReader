@@ -5,6 +5,7 @@ import com.serpentech.legacyreader.chooseafile.MusicEntries;
 public class StaticStuff {
     public static MusicEntries.MusicEntry chosenFile;
     public static int lastLineMeasureNumber = 0;
+    public static boolean needNewLine = true;
     public static class MusicSpacing {
         public static int sideMargins = 5;
         public static int noteSpace = 5;
