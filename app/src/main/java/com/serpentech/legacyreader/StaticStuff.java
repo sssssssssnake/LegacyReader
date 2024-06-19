@@ -15,5 +15,6 @@ public class StaticStuff {
         public static double densityOfPixels;
         public static boolean darkMode;
     }
+    public int[] musicSheetViewDimensionsPx = new int[2];
 
 }

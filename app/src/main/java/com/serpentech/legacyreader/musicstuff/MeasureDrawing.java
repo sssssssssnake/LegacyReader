@@ -1,5 +1,7 @@
 package com.serpentech.legacyreader.musicstuff;
 
+import android.util.Log;
+
 import com.serpentech.legacyreader.StaticStuff;
 import com.serpentech.legacyreader.musicstuff.music.Song;
 
@@ -13,13 +15,13 @@ import java.util.Objects;
  */
 public class MeasureDrawing {
     List<Song.Measure> measures;
+    List<Line> lines;
 
     public MeasureDrawing(Song song) {
         measures = song.measures;
     }
 
-    public float[] estimateMeasureDimentions(Song.Measure measure) {
-        float[] dimentions = new float[2];
+    public float[] estimateMeasureDimensions(Song.Measure measure) {
         MeasureForDrawing measureForDrawing = new MeasureForDrawing(measure);
         float height = 0;
         float width = 0;
@@ -31,9 +33,9 @@ public class MeasureDrawing {
         width += StaticStuff.MusicSpacing.noteWidth * measureForDrawing.noteGroupsSize;
         width += StaticStuff.MusicSpacing.sideMargins * 2;
 
-        dimentions = new float[] {width, height};
+        float[] dimensions = new float[] {dpToPx(width), dpToPx(height)};
         System.gc();
-        return dimentions;
+        return dimensions;
     }
 
 
@@ -48,6 +50,7 @@ public class MeasureDrawing {
             this.measure = measure;
             staves = measure.staves;
             findNoteGroups();
+            Log.d("MeasureDrawing", "In measure " + measure.measureNumber + " there are " + noteGroupsSize + " note groups");
         }
 
         public void findNoteGroups() {
@@ -76,8 +79,17 @@ public class MeasureDrawing {
      * This is the class that will represent the Lines of the song as it is drawn on the screen
      */
     public class Line {
+        int lineNumber;
         List<MeasureForDrawing> measures;
         public List<MusicObjectified.StaveClef> clefs;
 
+        public Line(Song song) {
+            int currentMeasure = StaticStuff.lastLineMeasureNumber;
+            // get the current
+        }
+
+    }
+    public int dpToPx(double dp) {
+        return (int) (dp * StaticStuff.MusicSpacing.densityOfPixels);
     }
 }

@@ -6,7 +6,7 @@ import com.serpentech.legacyreader.filemanagement.xmlmanage.XmlGrab;
 import java.util.ArrayList;
 import java.util.List;
 
-/* Song.java
+/** Song.java
  *
  * This class represents a song. It contains a list of measures, which contain a list of notes.
  * It is specifically for the purpose of representing a song in the context of a music notation program.
