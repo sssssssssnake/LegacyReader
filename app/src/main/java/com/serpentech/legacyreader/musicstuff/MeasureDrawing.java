@@ -84,8 +84,24 @@ public class MeasureDrawing {
         public List<MusicObjectified.StaveClef> clefs;
 
         public Line(Song song) {
+            boolean doublebar = false;
             int currentMeasure = StaticStuff.lastLineMeasureNumber;
-            // get the current
+            int currentLineWidth = 0;
+            // TODO: make this a loop accounting for the end of the song
+            // get the current measure and look at the width and then add that to the running width total
+            currentLineWidth = (int) (dpToPx(estimateMeasureDimensions(song.measures.get(currentMeasure))[0]));
+            currentMeasure += 1;
+            while (currentLineWidth < StaticStuff.musicSheetViewDimensionsPx[0]) {
+                if (currentMeasure >= song.measures.size()) {
+                    currentMeasure = 0;
+                }
+                currentLineWidth += (int) (dpToPx(estimateMeasureDimensions(song.measures.get(currentMeasure))[0]));
+            }
+
+            endLine: {
+
+            }
+
         }
 
     }
