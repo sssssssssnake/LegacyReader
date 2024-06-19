@@ -1,5 +1,7 @@
 package com.serpentech.legacyreader.musicstuff;
 
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.util.Log;
 
 import com.serpentech.legacyreader.StaticStuff;
@@ -136,5 +138,39 @@ public class MeasureDrawing {
     }
     public int dpToPx(double dp) {
         return (int) (dp * StaticStuff.MusicSpacing.densityOfPixels);
+    }
+
+    public class drawingLogic{
+        Canvas canvas;
+        Paint paint;
+
+        public void drawMeasure(MeasureForDrawing measureForDrawing, int[] startingCoordinates) {
+            int numberOfStaves = measureForDrawing.measure.staves;
+            int numberOfMeasureDivisions = measureForDrawing.noteGroupsSize;
+
+
+        }
+
+        public void drawStave(int[] startingCoordinates, int endingX) {
+
+        }
+
+        /**
+         * Draws a horizontal line on the screen
+         * @param startingCoordinates The starting coordinates of the line
+         * @param endingX The ending x coordinate of the line
+         */
+        public void drawHorizontalLine(int[] startingCoordinates, int endingX) {
+            canvas.drawLine(startingCoordinates[0], startingCoordinates[1], endingX, startingCoordinates[1], paint);
+        }
+
+        /**
+         * Changes the colour of the paint
+         * @param colour takes in a value (0x[alpha][red][green][blue]) i.e. 0xFF000000 is black
+         */
+        public void changeColour(int colour) {
+            paint.setColor(colour);
+        }
+
     }
 }
