@@ -20,7 +20,7 @@ public class MeasureDrawing {
     }
 
     /**
-     * Estimeates the dimensions of a measure in pixels
+     * Estimates the dimensions of a measure in pixels
      * @param measure The measure you are probably going to draw
      * @return The dimensions of the measure in physical pixels
      */
@@ -74,6 +74,7 @@ public class MeasureDrawing {
                     for (int[] time : times) {
                         if (note.positionFromStart == time) {
                             found = true;
+                            break;
                         }
                     }
                     if (!found) {
