@@ -5,6 +5,7 @@ import com.serpentech.legacyreader.filemanagement.xmlmanage.XmlGrab;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class MusicObjectified {
     List<Measure> measures;
 

@@ -6,6 +6,7 @@ import android.util.Log;
 
 import java.util.List;
 
+@Deprecated
 public class MathStuff {
     public int[] dimentions = new int[2];
 
