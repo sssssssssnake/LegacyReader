@@ -1,7 +1,6 @@
 package com.serpentech.legacyreader;
 
 import android.Manifest;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,12 +13,10 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.serpentech.legacyreader.databinding.FragmentIntroBinding;
-import com.serpentech.legacyreader.musicstuff.MusicSheetView;
 
 public class IntroFragment extends Fragment {
 
     private FragmentIntroBinding binding;
-    private MusicSheetView musicSheetView;
 
 
     @Override

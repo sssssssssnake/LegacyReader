@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** Song.java
- *
  * This class represents a song. It contains a list of measures, which contain a list of notes.
  * It is specifically for the purpose of representing a song in the context of a music notation program.
  * It is also designed according to the MusicXML format.
@@ -20,9 +19,7 @@ public class Song {
         XmlGrab xmlGrab = new XmlGrab();
         List<XmlGrab.XmlGroup> measureContents = xmlGrab.scanXMLForKeywordList(xmlContent, "measure");
         measures = new ArrayList<Measure>();
-        for (XmlGrab.XmlGroup measureContent : measureContents) {
-            measures.add(new Measure(measureContent.contents, xmlGrab));
-        }
+        measureContents.forEach(measureContent -> measures.add(new Measure(measureContent.contents, xmlGrab)));
 
         // Make sure that all the measures have attributes
         int counter = 0;
@@ -185,8 +182,6 @@ public class Song {
                     this.timeSignature[1] = Integer.parseInt(xmlGrab.grabContents(xmlContent, "beat-type"));
                 } else {
                     this.timeSignature = new int[2];
-                    this.timeSignature[0] = 0;
-                    this.timeSignature[1] = 0;
                 }
 
                 if (xmlContent.contains("key")) {

@@ -6,22 +6,15 @@ import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Xml;
 import android.view.View;
 import android.util.Log;
 
-import com.caverock.androidsvg.PreserveAspectRatio;
-import com.caverock.androidsvg.SVG;
-import com.caverock.androidsvg.SVGParseException;
-import com.serpentech.legacyreader.R;
+
 import com.serpentech.legacyreader.StaticStuff;
-import com.serpentech.legacyreader.filemanagement.ConfigXmlJson;
 import com.serpentech.legacyreader.filemanagement.CustomFileManager;
 import com.serpentech.legacyreader.filemanagement.xmlmanage.XmlGrab;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 

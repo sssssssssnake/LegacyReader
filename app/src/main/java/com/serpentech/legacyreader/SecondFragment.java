@@ -3,17 +3,9 @@ package com.serpentech.legacyreader;
 import static android.app.Activity.RESULT_OK;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +17,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import com.serpentech.legacyreader.databinding.FragmentSecondBinding;
-import com.serpentech.legacyreader.filemanagement.ConfigFilesJson;
-import com.serpentech.legacyreader.filemanagement.CustomFileManager;
 import com.serpentech.legacyreader.managedbuttoncode.ButtonsSecondFragment;
 
 
@@ -69,11 +59,7 @@ public class SecondFragment extends Fragment {
                 }
         );
 
-        binding.buttonSecond.setOnClickListener(v -> {
-
-
-            ButtonsSecondFragment.processFile(fileChooserLauncher, getContext());
-        });
+        binding.buttonSecond.setOnClickListener(v -> ButtonsSecondFragment.processFile(fileChooserLauncher, getContext()));
 
         binding.backButton.setOnClickListener(v ->
                 NavHostFragment.findNavController(SecondFragment.this)

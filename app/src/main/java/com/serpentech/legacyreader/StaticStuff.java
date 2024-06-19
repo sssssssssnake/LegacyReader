@@ -10,7 +10,7 @@ public class StaticStuff {
         public static int noteSpace = 5;
         public static int noteWidth = 10;
         public static int lineSpace = 10;
-        public static int partSpace = 30;
+//        public static int partSpace = 30;
         public static int staffSpace = (lineSpace * 4) + 40;
         public static double densityOfPixels;
         public static boolean darkMode;

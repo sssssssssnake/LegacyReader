@@ -6,9 +6,7 @@ import com.serpentech.legacyreader.StaticStuff;
 import com.serpentech.legacyreader.musicstuff.music.Song;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * This class is to replace MathStuff with better classes to objectify music for the screen, not just theory
