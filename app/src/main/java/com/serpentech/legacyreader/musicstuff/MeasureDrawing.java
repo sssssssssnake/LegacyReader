@@ -144,15 +144,25 @@ public class MeasureDrawing {
         Canvas canvas;
         Paint paint;
 
+        public drawingLogic(Canvas canvas, Paint paint) {
+            this.canvas = canvas;
+            this.paint = paint;
+        }
+
         public void drawMeasure(MeasureForDrawing measureForDrawing, int[] startingCoordinates) {
-            int numberOfStaves = measureForDrawing.measure.staves;
+            int numberOfStaves = measureForDrawing.staves;
             int numberOfMeasureDivisions = measureForDrawing.noteGroupsSize;
+            int width = ((int) estimateMeasureDimensions(measureForDrawing.measure)[0]);
 
 
         }
 
         public void drawStave(int[] startingCoordinates, int endingX) {
-
+            // draw 4 lines
+            for (int i = 0; i < 4; i++) {
+                drawHorizontalLine(startingCoordinates, endingX);
+                startingCoordinates[1] += StaticStuff.MusicSpacing.lineSpace;
+            }
         }
 
         /**
@@ -162,6 +172,9 @@ public class MeasureDrawing {
          */
         public void drawHorizontalLine(int[] startingCoordinates, int endingX) {
             canvas.drawLine(startingCoordinates[0], startingCoordinates[1], endingX, startingCoordinates[1], paint);
+        }
+        public void drawVerticalLine(int[] startingCoordinates, int endingY) {
+            canvas.drawLine(startingCoordinates[0], startingCoordinates[1], startingCoordinates[0], endingY, paint);
         }
 
         /**
