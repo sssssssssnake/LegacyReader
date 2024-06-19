@@ -19,6 +19,11 @@ public class MeasureDrawing {
         measures = song.measures;
     }
 
+    /**
+     * Estimeates the dimensions of a measure in pixels
+     * @param measure The measure you are probably going to draw
+     * @return The dimensions of the measure in physical pixels
+     */
     public float[] estimateMeasureDimensions(Song.Measure measure) {
         MeasureForDrawing measureForDrawing = new MeasureForDrawing(measure);
         float height = 0;
@@ -37,6 +42,11 @@ public class MeasureDrawing {
     }
 
 
+    /**
+     * This is the class that will represent a measure as it is drawn on the screen
+     * it contains a measure (really a pointer) and a list of note groups
+     * it is used for drawing the notes, specifically horizontally across the screen.
+     */
     public class MeasureForDrawing {
         public Song.Measure measure;
         // note groups represents the subdivisions of a measure in terms of where a note lands in the measure
@@ -51,6 +61,9 @@ public class MeasureDrawing {
             Log.d("MeasureDrawing", "In measure " + measure.measureNumber + " there are " + noteGroupsSize + " note groups");
         }
 
+        /**
+         * Finds the note groups (how many times a group of notes are played) in the measure and sets the noteGroupsSize and noteGroups variables
+         */
         public void findNoteGroups() {
             List<int[]> times = new ArrayList<>();
             for (Song.Note note : measure.notes) {
@@ -79,7 +92,8 @@ public class MeasureDrawing {
     public class Line {
         int lineNumber;
         List<MeasureForDrawing> measures;
-        public List<MusicObjectified.StaveClef> clefs;
+        public List<Song.StaveClef> clefs;
+
 
         public Line(Song song) {
             boolean doublebar = false;
@@ -96,9 +110,6 @@ public class MeasureDrawing {
                 currentLineWidth += (int) (dpToPx(estimateMeasureDimensions(song.measures.get(currentMeasure))[0]));
             }
 
-            endLine: {
-
-            }
 
         }
 
