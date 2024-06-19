@@ -62,7 +62,7 @@ public class MusicSheetView extends View {
         mathStuff.densityOfPixels = getResources().getDisplayMetrics().density;
 
         Log.d("MusicSheetView", "Width: " + viewWidth + " Height: " + viewHeight);
-        mathStuff.dimentions= new int[] {viewWidth, viewHeight};
+        StaticStuff.musicSheetViewDimensionsPx = new int[] {viewWidth, viewHeight};
 
     }
 

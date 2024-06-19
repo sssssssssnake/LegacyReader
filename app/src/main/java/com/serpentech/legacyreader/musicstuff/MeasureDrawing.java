@@ -97,17 +97,24 @@ public class MeasureDrawing {
 
         public Line(Song song) {
             boolean doublebar = false;
+            boolean toobig = false;
             int currentMeasure = StaticStuff.lastLineMeasureNumber;
+            // currentLineWidth in physical pixels
             int currentLineWidth = 0;
+            // grab the width of MusicSheetView
+            int screenWidth = StaticStuff.musicSheetViewDimensionsPx[0];
+            // NOTE: the pixels are arranged game-like Positive x, negative y; mathematically
+
             // TODO: make this a loop accounting for the end of the song
             // get the current measure and look at the width and then add that to the running width total
-            currentLineWidth = (int) (dpToPx(estimateMeasureDimensions(song.measures.get(currentMeasure))[0]));
-            currentMeasure += 1;
-            while (currentLineWidth < StaticStuff.musicSheetViewDimensionsPx[0]) {
-                if (currentMeasure >= song.measures.size()) {
-                    currentMeasure = 0;
+            if (currentMeasure != measures.size() && !toobig) {
+                int newLineWidth;
+                newLineWidth = currentLineWidth + Math.round(estimateMeasureDimensions(measures.get(currentMeasure).measure)[0]);
+                if (newLineWidth > screenWidth) {
+                    toobig = true;
+                } else {
+                    currentLineWidth = newLineWidth;
                 }
-                currentLineWidth += (int) (dpToPx(estimateMeasureDimensions(song.measures.get(currentMeasure))[0]));
             }
 
 
