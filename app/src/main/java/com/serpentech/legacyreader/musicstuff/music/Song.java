@@ -14,7 +14,7 @@ import java.util.List;
  *
  */
 public class Song {
-    List<Measure> measures;
+    public List<Measure> measures;
 
     public Song(String xmlContent) {
         XmlGrab xmlGrab = new XmlGrab();
