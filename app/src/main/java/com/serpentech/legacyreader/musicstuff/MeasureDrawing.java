@@ -168,7 +168,7 @@ public class MeasureDrawing {
                 paint.setColor(0xFF000000);
             }
             for (int i = 0; i < numberOfStaves; i++) {
-                drawStave(staveStartingCoordinates[numberOfStaves], stoppingX);
+                drawStave(staveStartingCoordinates[i], stoppingX);
             }
 
         }
