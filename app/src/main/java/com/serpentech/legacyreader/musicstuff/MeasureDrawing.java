@@ -30,7 +30,7 @@ public class MeasureDrawing {
     public void drawLines() {
 
         goThroughLines: for (Line line : lines) {
-            for (MeasureForDrawing measure : line.measures) {
+            goThroughMeasures: for (MeasureForDrawing measure : line.measures) {
                 //TODO: draw the measures and apply fun logic, ~yay~
 
             }
@@ -44,13 +44,14 @@ public class MeasureDrawing {
      * @param margin The margin between the lines in physical pixels
      * @return The total height of the lines in physical pixels
      */
-    public static int addNewSpacing(Line line, int previousLineHeights, int margin) {
+    public int addNewSpacing(Line line, int previousLineHeights, int margin) {
         int estimatedNewLineSpace = line.estimateLineHeight();
         int maxTotalHeight = StaticStuff.musicSheetViewDimensionsPx[1];
         int newTotalPreviousLineSpace = previousLineHeights + estimatedNewLineSpace + margin;
         if (newTotalPreviousLineSpace > maxTotalHeight) {
             return 0;
         } else {
+            linesOnScreen++;
             return newTotalPreviousLineSpace;
         }
     }
