@@ -163,6 +163,7 @@ public class MeasureDrawing {
 
 
         public Line(Song song) {
+            measures = new ArrayList<>();
             boolean doublebar = false;
             boolean toobig = false;
             int currentMeasure = StaticStuff.lastLineMeasureNumber;
@@ -171,7 +172,7 @@ public class MeasureDrawing {
             // grab the width of MusicSheetView
             int screenWidth = StaticStuff.musicSheetViewDimensionsPx[0];
             // NOTE: the pixels are arranged game-like Positive x, negative y; mathematically
-            Log.d("Line", "Number of measures inside Line(): " + song.measures.size());
+            Log.d("Line", "Number of measures inside Line(): " + measures.size());
             Log.d("Line", "Current measure: " + currentMeasure);
             // is it too big?
             Log.d("Line", "is it too big? " + toobig);
@@ -179,9 +180,10 @@ public class MeasureDrawing {
 
 
             // get the current measure and look at the width and then add that to the running width total
-            if ((currentMeasure != measures.size()) && !toobig) {
+            if ((currentMeasure != song.measures.size()) && !toobig) {
                 int newLineWidth;
                 newLineWidth = currentLineWidth + Math.round(estimateMeasureDimensions(song.measures.get(currentMeasure))[0]);
+                Log.d("Line", "newLineWidth: " + newLineWidth + " screenWidth: " + screenWidth);
                 if (newLineWidth > screenWidth) {
                     toobig = true;
                 } else {
@@ -190,14 +192,15 @@ public class MeasureDrawing {
                     currentLineWidth = newLineWidth;
                     currentMeasure++;
                 }
-            } else if ((currentMeasure == measures.size()) && !toobig) {
-                // the song is at its end and we need a double bar and we don't need any more lines for viewing the song.
-                doublebar = true;
-                StaticStuff.needNewLine = false;
-            } else if ((currentMeasure != measures.size()) && toobig) {
+            } else if ((currentMeasure != song.measures.size()) && toobig) {
                 // The line is now too big, and we can now stop and start a new one
                 doublebar = false;
                 StaticStuff.needNewLine = true;
+            }
+            else if ((currentMeasure == song.measures.size()) && !toobig) {
+                // the song is at its end and we need a double bar and we don't need any more lines for viewing the song.
+                doublebar = true;
+                StaticStuff.needNewLine = false;
             }
 
 
