@@ -27,6 +27,7 @@ public class MusicSheetView extends View {
     private int viewHeight;
     public boolean goodToDrawMusic = false;
     Song song;
+    MeasureDrawing measureDrawing;
 //    MathStuff mathStuff = new MathStuff();
 //    MusicObjectified musicObject = new MusicObjectified();
 //    MusicObjectified.Measure testMeasure;
@@ -67,6 +68,7 @@ public class MusicSheetView extends View {
         Log.d("MusicSheetView", "Width: " + viewWidth + " Height: " + viewHeight);
         StaticStuff.musicSheetViewDimensionsPx = new int[] {viewWidth, viewHeight};
 
+
     }
 
     @SuppressLint("DrawAllocation")
@@ -82,6 +84,7 @@ public class MusicSheetView extends View {
             song = new Song(CustomFileManager.readFile(StaticStuff.chosenFile.filepath));
             System.gc();
             // start to implement logic for drawing the music!!
+            MeasureDrawing songForScreen = new MeasureDrawing(song);
         }
         // need to delete at some point, but will probably be useful
 //        if(goodToDrawMusic){

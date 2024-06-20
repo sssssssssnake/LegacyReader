@@ -19,6 +19,18 @@ public class MeasureDrawing {
 
     public MeasureDrawing(Song song) {
         measures = song.measures;
+        lines = new ArrayList<>();
+        while (StaticStuff.needNewLine) {
+            lines.add(new Line(song));
+        }
+    }
+
+    public void drawLines() {
+        for (Line line : lines) {
+            for (MeasureForDrawing measure : line.measures) {
+                //TODO: draw the measures and apply fun logic, ~yay~
+            }
+        }
     }
 
     /**
@@ -178,6 +190,11 @@ public class MeasureDrawing {
 
         }
 
+        /**
+         * Draws a stave on the screen
+         * @param startingCoordinates The starting coordinates of the stave
+         * @param endingX The ending x coordinate of the stave
+         */
         public void drawStave(int[] startingCoordinates, int endingX) {
             // draw 4 lines
             for (int i = 0; i < 4; i++) {
