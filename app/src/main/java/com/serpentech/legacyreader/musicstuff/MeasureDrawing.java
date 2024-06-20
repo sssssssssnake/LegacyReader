@@ -30,7 +30,7 @@ public class MeasureDrawing {
             lines.add(new Line(song));
         }
         Log.d("MeasureDrawing", "Number of lines: " + lines.size());
-        Log.d("MeasureDrawing", "Measures in line 1" + lines.get(0).measures.size());
+        Log.d("MeasureDrawing", "Measures in line 1: " + lines.get(0).measures.size());
         System.gc();
     }
 
@@ -163,6 +163,7 @@ public class MeasureDrawing {
 
 
         public Line(Song song) {
+            boolean goThroughMeasures = true;
             measures = new ArrayList<>();
             boolean doublebar = false;
             boolean toobig = false;
@@ -178,29 +179,31 @@ public class MeasureDrawing {
             Log.d("Line", "is it too big? " + toobig);
             Log.d("Line", "StaticStuff.needNewLine: " + StaticStuff.needNewLine);
 
-
-            // get the current measure and look at the width and then add that to the running width total
-            if ((currentMeasure != song.measures.size()) && !toobig) {
-                int newLineWidth;
-                newLineWidth = currentLineWidth + Math.round(estimateMeasureDimensions(song.measures.get(currentMeasure))[0]);
-                Log.d("Line", "newLineWidth: " + newLineWidth + " screenWidth: " + screenWidth);
-                if (newLineWidth > screenWidth) {
-                    toobig = true;
-                } else {
-                    // add the measure to the list and move on
-                    measures.add(new MeasureForDrawing(song.measures.get(currentMeasure)));
-                    currentLineWidth = newLineWidth;
-                    currentMeasure++;
+            while (goThroughMeasures) {
+                // get the current measure and look at the width and then add that to the running width total
+                if ((currentMeasure != song.measures.size()) && !toobig) {
+                    int newLineWidth;
+                    newLineWidth = currentLineWidth + Math.round(estimateMeasureDimensions(song.measures.get(currentMeasure))[0]);
+                    Log.d("Line", "newLineWidth: " + newLineWidth + " screenWidth: " + screenWidth);
+                    if (newLineWidth > screenWidth) {
+                        toobig = true;
+                    } else {
+                        // add the measure to the list and move on
+                        measures.add(new MeasureForDrawing(song.measures.get(currentMeasure)));
+                        currentLineWidth = newLineWidth;
+                        currentMeasure++;
+                    }
+                } else if ((currentMeasure != song.measures.size()) && toobig) {
+                    // The line is now too big, and we can now stop and start a new one
+                    doublebar = false;
+                    StaticStuff.needNewLine = true;
+                    goThroughMeasures = false;
+                } else if ((currentMeasure == song.measures.size()) && !toobig) {
+                    // the song is at its end and we need a double bar and we don't need any more lines for viewing the song.
+                    doublebar = true;
+                    StaticStuff.needNewLine = false;
+                    goThroughMeasures = false;
                 }
-            } else if ((currentMeasure != song.measures.size()) && toobig) {
-                // The line is now too big, and we can now stop and start a new one
-                doublebar = false;
-                StaticStuff.needNewLine = true;
-            }
-            else if ((currentMeasure == song.measures.size()) && !toobig) {
-                // the song is at its end and we need a double bar and we don't need any more lines for viewing the song.
-                doublebar = true;
-                StaticStuff.needNewLine = false;
             }
 
 
@@ -209,6 +212,8 @@ public class MeasureDrawing {
             // is it too big?
             Log.d("Line", "is it too big2? " + toobig);
             Log.d("Line", "StaticStuff.needNewLine2: " + StaticStuff.needNewLine);
+            Log.d("Line", "Number of measures inside Line()2: " + measures.size());
+
 
         }
 
