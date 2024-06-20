@@ -34,11 +34,14 @@ public class Song {
                 ++counter;
             }
         }
+        // TODO: update the measure attributes it doesn't work
+        Log.d("Song", "Updated measure attributes");
 
         // update the notes length
         for (Measure measure : measures) {
             measure.updateNotesLength();
         }
+        Log.d("Song", "Updated notes length");
     }
 
     public Pitch circleOfFiths(int index) {
