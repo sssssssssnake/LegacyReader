@@ -28,9 +28,6 @@ public class MusicSheetView extends View {
     public boolean goodToDrawMusic = false;
     Song song;
     MeasureDrawing measureDrawing;
-//    MathStuff mathStuff = new MathStuff();
-//    MusicObjectified musicObject = new MusicObjectified();
-//    MusicObjectified.Measure testMeasure;
     XmlGrab xmlGrab = new XmlGrab();
 
     // Constructors
@@ -65,7 +62,6 @@ public class MusicSheetView extends View {
         viewHeight = h;
 
         StaticStuff.MusicSpacing.densityOfPixels = getResources().getDisplayMetrics().density;
-
         Log.d("MusicSheetView", "Width: " + viewWidth + " Height: " + viewHeight);
         StaticStuff.musicSheetViewDimensionsPx = new int[] {viewWidth, viewHeight};
 
@@ -80,7 +76,6 @@ public class MusicSheetView extends View {
         paint.setColor(Color.MAGENTA);
         paint.setStrokeWidth(5);
 
-//        goodToDrawMusic = (StaticStuff.chosenFile != null) && (!StaticStuff.isAlreadyDrawn);
         goodToDrawMusic = (StaticStuff.chosenFile != null);
         Log.d("MusicSheetView", "goodToDrawMusic: " + goodToDrawMusic);
         if (goodToDrawMusic) {
@@ -89,8 +84,10 @@ public class MusicSheetView extends View {
             Log.d("MusicSheetView", "Song created");
             // start to implement logic for drawing the music!!
             measureDrawing = new MeasureDrawing(song, paint, canvas);
-            measureDrawing.drawLines();
-//            StaticStuff.isAlreadyDrawn = true;
+            if (!measureDrawing.lines.isEmpty()) {
+                measureDrawing.drawLines();
+            }
+            Log.d("MusicSheetView", "Lines empty: " + measureDrawing.lines.isEmpty());
         } else if (StaticStuff.isAlreadyDrawn && (StaticStuff.chosenFile != null)) {
             measureDrawing.drawLines();
         }
