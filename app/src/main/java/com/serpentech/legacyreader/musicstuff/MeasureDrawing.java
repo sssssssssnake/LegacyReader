@@ -23,11 +23,14 @@ public class MeasureDrawing {
 
     public MeasureDrawing(Song song, Paint paint, Canvas canvas) {
         drawingLogic = new DrawingLogic(canvas, paint);
+        Log.d("MeasureDrawing", "Number of measures: " + song.measures.size());
         measures = song.measures;
         lines = new ArrayList<>();
         while (StaticStuff.needNewLine) {
             lines.add(new Line(song));
         }
+        Log.d("MeasureDrawing", "Number of lines: " + lines.size());
+        Log.d("MeasureDrawing", "Measures in line 1" + lines.get(0).measures.size());
         System.gc();
     }
 
@@ -168,6 +171,12 @@ public class MeasureDrawing {
             // grab the width of MusicSheetView
             int screenWidth = StaticStuff.musicSheetViewDimensionsPx[0];
             // NOTE: the pixels are arranged game-like Positive x, negative y; mathematically
+            Log.d("Line", "Number of measures inside Line(): " + song.measures.size());
+            Log.d("Line", "Current measure: " + currentMeasure);
+            // is it too big?
+            Log.d("Line", "is it too big? " + toobig);
+            Log.d("Line", "StaticStuff.needNewLine: " + StaticStuff.needNewLine);
+
 
             // get the current measure and look at the width and then add that to the running width total
             if ((currentMeasure != measures.size()) && !toobig) {
@@ -191,8 +200,12 @@ public class MeasureDrawing {
                 StaticStuff.needNewLine = true;
             }
 
-            StaticStuff.lastLineMeasureNumber = currentMeasure;
 
+            StaticStuff.lastLineMeasureNumber = currentMeasure;
+            Log.d("Line", "Current measure: " + currentMeasure);
+            // is it too big?
+            Log.d("Line", "is it too big2? " + toobig);
+            Log.d("Line", "StaticStuff.needNewLine2: " + StaticStuff.needNewLine);
 
         }
 

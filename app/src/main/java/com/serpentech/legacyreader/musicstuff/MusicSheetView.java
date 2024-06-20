@@ -54,6 +54,7 @@ public class MusicSheetView extends View {
 //        mathStuff.densityOfPixels = getResources().getDisplayMetrics().density;
 //        mathStuff.darkMode = isDarkTheme(getContext());
         StaticStuff.MusicSpacing.darkMode = StaticStuff.isDarkTheme(getContext());
+        Log.d("MusicSheetView", "Dark mode: " + StaticStuff.MusicSpacing.darkMode);
     }
 
     @Override
@@ -80,9 +81,11 @@ public class MusicSheetView extends View {
         paint.setStrokeWidth(5);
 
         goodToDrawMusic = StaticStuff.chosenFile != null;
+        Log.d("MusicSheetView", "goodToDrawMusic: " + goodToDrawMusic);
         if (goodToDrawMusic) {
             song = new Song(CustomFileManager.readFile(StaticStuff.chosenFile.filepath));
             System.gc();
+            Log.d("MusicSheetView", "Song created");
             // start to implement logic for drawing the music!!
             MeasureDrawing songForScreen = new MeasureDrawing(song, paint, canvas);
             songForScreen.drawLines();

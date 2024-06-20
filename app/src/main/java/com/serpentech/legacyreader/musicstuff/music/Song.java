@@ -1,6 +1,8 @@
 package com.serpentech.legacyreader.musicstuff.music;
 
 
+import android.util.Log;
+
 import com.serpentech.legacyreader.filemanagement.xmlmanage.XmlGrab;
 
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ public class Song {
     public Song(String xmlContent) {
         XmlGrab xmlGrab = new XmlGrab();
         List<XmlGrab.XmlGroup> measureContents = xmlGrab.scanXMLForKeywordList(xmlContent, "measure");
+        Log.d("Song", "Number of measures: " + measureContents.size());
         measures = new ArrayList<Measure>();
         measureContents.forEach(measureContent -> measures.add(new Measure(measureContent.contents, xmlGrab)));
 
