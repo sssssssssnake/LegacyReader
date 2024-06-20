@@ -130,7 +130,7 @@ public class Song {
                     this.measureNumber = Integer.parseInt(attribute[1]);
                 }
             }
-            // look for arttributes
+            // look for attributes
             // if there are attributes, get the divisions, staves, time signature, and key signature
             if (xmlContent.contains("<attributes")) {
 

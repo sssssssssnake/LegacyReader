@@ -70,7 +70,6 @@ public class MeasureDrawing {
         }
         Log.d("MeasureDrawing", "Current line: " + currentLine);
 
-
     }
 
     /**
@@ -108,11 +107,8 @@ public class MeasureDrawing {
         width = (measureForDrawing.noteGroupsSize - 1) * StaticStuff.MusicSpacing.noteSpace;
         width += StaticStuff.MusicSpacing.noteWidth * measureForDrawing.noteGroupsSize;
         width += StaticStuff.MusicSpacing.sideMargins * 2;
-        Log.d("MeasureDrawing", "Measure " + measure.measureNumber + " width: " + width + " height: " + height);
-
         float[] dimensions = {dpToPx(width), dpToPx(height)};
         System.gc();
-        Log.d( "MeasureDrawing", "Dimensions: " + dimensions[0] + " " + dimensions[1]);
         return dimensions;
     }
 
@@ -133,7 +129,6 @@ public class MeasureDrawing {
             this.measure = measure;
             staves = measure.staves;
             findNoteGroups();
-            Log.d("MeasureDrawing", "In measure " + measure.measureNumber + " there are " + noteGroupsSize + " note groups");
         }
 
         /**
@@ -182,19 +177,12 @@ public class MeasureDrawing {
             // grab the width of MusicSheetView
             int screenWidth = StaticStuff.musicSheetViewDimensionsPx[0];
             // NOTE: the pixels are arranged game-like Positive x, negative y; mathematically
-            Log.d("Line", "Current measure: " + currentMeasure);
-            // is it too big?
-            Log.d("Line", "is it too big? " + toobig);
-            Log.d("Line", "StaticStuff.needNewLine: " + StaticStuff.needNewLine);
             int newLineWidth;
             while (goThroughMeasures) {
                 // get the current measure and look at the width and then add that to the running width total
                 if ((currentMeasure != song.measures.size()) && !toobig) {
 
                     newLineWidth = currentLineWidth + Math.round(estimateMeasureDimensions(song.measures.get(currentMeasure))[0]);
-                    Log.d("Line", "newLineWidth: " + newLineWidth + " screenWidth: " + screenWidth);
-                    Log.d("Line", "Estimated measure width: " + estimateMeasureDimensions(song.measures.get(currentMeasure))[0]);
-                    Log.d("Line", "Measure note groups size: " + new MeasureForDrawing(song.measures.get(currentMeasure)).noteGroupsSize);
                     if (newLineWidth > screenWidth) {
                         toobig = true;
                     } else {
@@ -218,11 +206,7 @@ public class MeasureDrawing {
 
 
             StaticStuff.lastLineMeasureNumber = currentMeasure;
-            Log.d("Line", "Current measure: " + currentMeasure);
-            // is it too big?
-            Log.d("Line", "is it too big2? " + toobig);
-            Log.d("Line", "StaticStuff.needNewLine2: " + StaticStuff.needNewLine);
-            Log.d("Line", "Number of measures inside Line()2: " + measures.size());
+
 
 
         }
