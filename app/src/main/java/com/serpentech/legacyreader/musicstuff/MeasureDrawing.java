@@ -281,7 +281,7 @@ public class MeasureDrawing {
             int[] topRight = new int[2];
             topRight[0] = stoppingX;
             topRight[1] = startingCoordinates[1];
-            drawVerticalLine(topRight, startingCoordinates[1] + ((numberOfStaves -1) * StaticStuff.MusicSpacing.staffSpace) + (StaticStuff.MusicSpacing.lineSpace * 4));
+            drawVerticalLine(topRight, startingCoordinates[1] + ((numberOfStaves) * StaticStuff.MusicSpacing.staffSpace) + (StaticStuff.MusicSpacing.lineSpace * 4));
 
         }
 

@@ -124,7 +124,12 @@ public class Song {
 
         public Measure(String xmlContent, XmlGrab xmlGrab) {
             this.notes = new ArrayList<Note>();
-
+            List<String[]> measureAttributes = xmlGrab.grabHeaders(xmlContent, "measure");
+            for (String[] attribute : measureAttributes) {
+                if (attribute[0].equals("number")) {
+                    this.measureNumber = Integer.parseInt(attribute[1]);
+                }
+            }
             // look for arttributes
             // if there are attributes, get the divisions, staves, time signature, and key signature
             if (xmlContent.contains("<attributes")) {
@@ -176,12 +181,7 @@ public class Song {
                 } else {
                     this.staves = 0;
                 }
-                List<String[]> measureAttributes = xmlGrab.grabHeaders(xmlContent, "measure");
-                for (String[] attribute : measureAttributes) {
-                    if (attribute[0].equals("number")) {
-                        this.measureNumber = Integer.parseInt(attribute[1]);
-                    }
-                }
+
                 if (xmlContent.contains("time")) {
                     this.timeSignature = new int[2];
                     this.timeSignature[0] = Integer.parseInt(xmlGrab.grabContents(xmlContent, "beats"));
