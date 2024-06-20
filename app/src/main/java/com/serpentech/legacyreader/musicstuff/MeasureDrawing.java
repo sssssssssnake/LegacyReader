@@ -3,10 +3,8 @@ package com.serpentech.legacyreader.musicstuff;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.Log;
-
 import com.serpentech.legacyreader.StaticStuff;
 import com.serpentech.legacyreader.musicstuff.music.Song;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +15,7 @@ public class MeasureDrawing {
     List<Song.Measure> measures;
     List<Line> lines;
     DrawingLogic drawingLogic;
+    int linesOnScreen;
 
     public MeasureDrawing(Song song, Paint paint, Canvas canvas) {
         drawingLogic = new DrawingLogic(canvas, paint);
@@ -29,10 +28,30 @@ public class MeasureDrawing {
     }
 
     public void drawLines() {
-        for (Line line : lines) {
+
+        goThroughLines: for (Line line : lines) {
             for (MeasureForDrawing measure : line.measures) {
                 //TODO: draw the measures and apply fun logic, ~yay~
+
             }
+        }
+    }
+
+    /**
+     * Estimates the height of a line in pixels
+     * @param line The line you are probably going to draw
+     * @param previousLineHeights The height of the previous lines in physical pixels
+     * @param margin The margin between the lines in physical pixels
+     * @return The total height of the lines in physical pixels
+     */
+    public static int addNewSpacing(Line line, int previousLineHeights, int margin) {
+        int estimatedNewLineSpace = line.estimateLineHeight();
+        int maxTotalHeight = StaticStuff.musicSheetViewDimensionsPx[1];
+        int newTotalPreviousLineSpace = previousLineHeights + estimatedNewLineSpace + margin;
+        if (newTotalPreviousLineSpace > maxTotalHeight) {
+            return 0;
+        } else {
+            return newTotalPreviousLineSpace;
         }
     }
 
@@ -150,10 +169,25 @@ public class MeasureDrawing {
 
         }
 
+        /**
+         * Estimates the height of the line in pixels
+         * @return The height of the line in physical pixels
+         */
+        public int estimateLineHeight() {
+            int maxHeight = 0;
+            for (MeasureForDrawing measure : measures) {
+                if (measure.staves > maxHeight) {
+                    maxHeight = measure.staves;
+                }
+            }
+            return dpToPx(
+                    ((maxHeight - 1) * StaticStuff.MusicSpacing.staffSpace) + (StaticStuff.MusicSpacing.lineSpace * 4)
+            );
+        }
+
     }
-    public int dpToPx(double dp) {
-        return (int) (dp * StaticStuff.MusicSpacing.densityOfPixels);
-    }
+
+
 
     public class DrawingLogic{
         Canvas canvas;
@@ -225,5 +259,13 @@ public class MeasureDrawing {
             paint.setColor(colour);
         }
 
+    }
+    /**
+     * Converts dp to pixels
+     * @param dp The dp value you want to convert
+     * @return The physical pixels of the dp value
+     */
+    public int dpToPx(double dp) {
+        return (int) (dp * StaticStuff.MusicSpacing.densityOfPixels);
     }
 }

@@ -9,6 +9,7 @@ import com.serpentech.legacyreader.musicstuff.MusicSheetView;
 public class StaticStuff {
     public static MusicEntries.MusicEntry chosenFile;
     public static int lastLineMeasureNumber = 0;
+    public static int lastLineDrawingNumber;
     public static boolean needNewLine = true;
     public static class MusicSpacing {
         public static int sideMargins = 5;
