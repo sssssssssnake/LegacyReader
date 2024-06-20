@@ -151,7 +151,6 @@ public class MeasureDrawing {
 
         public void drawMeasure(MeasureForDrawing measureForDrawing, int[] startingCoordinates) {
             int numberOfStaves = measureForDrawing.staves;
-            int numberOfMeasureDivisions = measureForDrawing.noteGroupsSize;
             int width = ((int) estimateMeasureDimensions(measureForDrawing.measure)[0]);
             int[][] staveStartingCoordinates = new int[numberOfStaves][2];
             int stoppingX = startingCoordinates[0] + width;
@@ -170,6 +169,12 @@ public class MeasureDrawing {
             for (int i = 0; i < numberOfStaves; i++) {
                 drawStave(staveStartingCoordinates[i], stoppingX);
             }
+            // draw the virtical line at the end of the measure
+
+            int[] topRight = new int[2];
+            topRight[0] = stoppingX;
+            topRight[1] = startingCoordinates[1];
+            drawVerticalLine(topRight, startingCoordinates[1] + ((numberOfStaves -1) * StaticStuff.MusicSpacing.staffSpace) + (StaticStuff.MusicSpacing.lineSpace * 4));
 
         }
 
