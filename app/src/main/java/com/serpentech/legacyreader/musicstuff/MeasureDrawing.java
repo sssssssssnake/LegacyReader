@@ -16,13 +16,16 @@ import java.util.List;
 public class MeasureDrawing {
     List<Song.Measure> measures;
     List<Line> lines;
+    DrawingLogic drawingLogic;
 
-    public MeasureDrawing(Song song) {
+    public MeasureDrawing(Song song, Paint paint, Canvas canvas) {
+        drawingLogic = new DrawingLogic(canvas, paint);
         measures = song.measures;
         lines = new ArrayList<>();
         while (StaticStuff.needNewLine) {
             lines.add(new Line(song));
         }
+        System.gc();
     }
 
     public void drawLines() {
@@ -152,11 +155,11 @@ public class MeasureDrawing {
         return (int) (dp * StaticStuff.MusicSpacing.densityOfPixels);
     }
 
-    public class drawingLogic{
+    public class DrawingLogic{
         Canvas canvas;
         Paint paint;
 
-        public drawingLogic(Canvas canvas, Paint paint) {
+        public DrawingLogic(Canvas canvas, Paint paint) {
             this.canvas = canvas;
             this.paint = paint;
         }
@@ -172,7 +175,6 @@ public class MeasureDrawing {
                 staveStartingCoordinates[i][0] = startingCoordinates[0];
                 staveStartingCoordinates[i][1] = startingCoordinates[1] + (i * StaticStuff.MusicSpacing.staffSpace);
             }
-            StaticStuff.MusicSpacing.darkMode = StaticStuff.isDarkTheme(StaticStuff.context);
             if ((StaticStuff.MusicSpacing.darkMode)) {
                 paint.setColor(0xFFAAAAAA);
             } else {

@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.res.Configuration;
 
 import com.serpentech.legacyreader.chooseafile.MusicEntries;
+import com.serpentech.legacyreader.musicstuff.MusicSheetView;
 
 public class StaticStuff {
-    public static Context context;
     public static MusicEntries.MusicEntry chosenFile;
     public static int lastLineMeasureNumber = 0;
     public static boolean needNewLine = true;
@@ -36,4 +36,5 @@ public class StaticStuff {
         }
         return false; // Default to non-dark mode
     }
+
 }
