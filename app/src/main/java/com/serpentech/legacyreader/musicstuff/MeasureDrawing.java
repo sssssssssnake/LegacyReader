@@ -153,21 +153,22 @@ public class MeasureDrawing {
             int numberOfStaves = measureForDrawing.staves;
             int numberOfMeasureDivisions = measureForDrawing.noteGroupsSize;
             int width = ((int) estimateMeasureDimensions(measureForDrawing.measure)[0]);
-            int[][] staveStartingCoordinates = new int[2][numberOfStaves];
+            int[][] staveStartingCoordinates = new int[numberOfStaves][2];
             int stoppingX = startingCoordinates[0] + width;
 
             // draw the staves
             for (int i = 0; i < numberOfStaves; i++) {
-                staveStartingCoordinates[0][i] = startingCoordinates[0];
-                staveStartingCoordinates[1][i] = startingCoordinates[1] + (i * StaticStuff.MusicSpacing.staffSpace);
+                staveStartingCoordinates[i][0] = startingCoordinates[0];
+                staveStartingCoordinates[i][1] = startingCoordinates[1] + (i * StaticStuff.MusicSpacing.staffSpace);
             }
+
             if ((StaticStuff.MusicSpacing.darkMode)) {
                 paint.setColor(0xFFAAAAAA);
             } else {
                 paint.setColor(0xFF000000);
             }
-            for (int[] staveStartingCoordinate : staveStartingCoordinates) {
-                drawStave(staveStartingCoordinate, stoppingX);
+            for (int i = 0; i < numberOfStaves; i++) {
+                drawStave(staveStartingCoordinates[numberOfStaves], stoppingX);
             }
 
         }

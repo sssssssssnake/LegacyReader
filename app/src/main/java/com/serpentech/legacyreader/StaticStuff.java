@@ -1,5 +1,8 @@
 package com.serpentech.legacyreader;
 
+import android.content.Context;
+import android.content.res.Configuration;
+
 import com.serpentech.legacyreader.chooseafile.MusicEntries;
 
 public class StaticStuff {
@@ -17,5 +20,19 @@ public class StaticStuff {
         public static boolean darkMode;
     }
     public static int[] musicSheetViewDimensionsPx = new int[2];
-
+    public static boolean isDarkTheme(Context context) {
+        int nightModeFlags = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        switch (nightModeFlags) {
+            case Configuration.UI_MODE_NIGHT_YES:
+                // Dark theme is active
+                return true;
+            case Configuration.UI_MODE_NIGHT_NO:
+                // Dark theme is not active
+                return false;
+            case Configuration.UI_MODE_NIGHT_UNDEFINED:
+                // We're not sure what the theme is, proceed with default
+                return false;
+        }
+        return false; // Default to non-dark mode
+    }
 }

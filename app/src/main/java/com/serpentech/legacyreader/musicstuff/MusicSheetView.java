@@ -25,9 +25,9 @@ public class MusicSheetView extends View {
     private int viewWidth;
     private int viewHeight;
     public boolean goodToDrawMusic = false;
-    MathStuff mathStuff = new MathStuff();
-    MusicObjectified musicObject = new MusicObjectified();
-    MusicObjectified.Measure testMeasure;
+//    MathStuff mathStuff = new MathStuff();
+//    MusicObjectified musicObject = new MusicObjectified();
+//    MusicObjectified.Measure testMeasure;
     XmlGrab xmlGrab = new XmlGrab();
 
     // Constructors
@@ -48,8 +48,8 @@ public class MusicSheetView extends View {
 
     private void init() {
         // Initialization code here
-        mathStuff.densityOfPixels = getResources().getDisplayMetrics().density;
-        mathStuff.darkMode = isDarkTheme(getContext());
+//        mathStuff.densityOfPixels = getResources().getDisplayMetrics().density;
+//        mathStuff.darkMode = isDarkTheme(getContext());
     }
 
     @Override
@@ -59,7 +59,7 @@ public class MusicSheetView extends View {
         viewWidth = w;
         viewHeight = h;
 
-        mathStuff.densityOfPixels = getResources().getDisplayMetrics().density;
+//        mathStuff.densityOfPixels = getResources().getDisplayMetrics().density;
 
         Log.d("MusicSheetView", "Width: " + viewWidth + " Height: " + viewHeight);
         StaticStuff.musicSheetViewDimensionsPx = new int[] {viewWidth, viewHeight};
@@ -76,16 +76,16 @@ public class MusicSheetView extends View {
 
         goodToDrawMusic = StaticStuff.chosenFile != null;
         if(goodToDrawMusic){
-            musicObject = new MusicObjectified();
+//            musicObject = new MusicObjectified();
             System.gc();
             String fileContent = CustomFileManager.readFile(StaticStuff.chosenFile.filepath);
             List<XmlGrab.XmlGroup> measures = xmlGrab.scanXMLForKeywordList(fileContent, "measure");
             System.gc();
-            musicObject.measures = new ArrayList<>();
-            for (XmlGrab.XmlGroup measure : measures) {
-                musicObject.measures.add(musicObject.new Measure(measure.contents));
-            }
-            Log.d("MusicSheetView", "Number of measures: " + musicObject.measures.size());
+//            musicObject.measures = new ArrayList<>();
+//            for (XmlGrab.XmlGroup measure : measures) {
+//                musicObject.measures.add(musicObject.new Measure(measure.contents));
+//            }
+//            Log.d("MusicSheetView", "Number of measures: " + musicObject.measures.size());
         }
 
 
