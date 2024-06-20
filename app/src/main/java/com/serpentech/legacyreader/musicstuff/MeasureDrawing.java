@@ -18,7 +18,7 @@ public class MeasureDrawing {
     int linesOnScreen;
     int currentLine = 0;
     int currentMaxHeight;
-    boolean keepDrawingLines;
+    boolean keepDrawingLines = true;
     int margins = 5;
 
     public MeasureDrawing(Song song, Paint paint, Canvas canvas) {
@@ -43,6 +43,7 @@ public class MeasureDrawing {
      * Draws the lines on the screen
      */
     public void drawLines() {
+        Log.d("MeasureDrawing", "Drawing lines");
         currentLine = StaticStuff.lastLineDrawingNumber;
         goThroughLines: while (keepDrawingLines) {
             int[] startingCoordinates = new int[2];
@@ -255,6 +256,7 @@ public class MeasureDrawing {
         }
 
         public void drawMeasure(MeasureForDrawing measureForDrawing, int[] startingCoordinates) {
+            Log.d("DrawingLogic", "Drawing measure " + measureForDrawing.measure.measureNumber);
             int numberOfStaves = measureForDrawing.staves;
             int width = ((int) estimateMeasureDimensions(measureForDrawing.measure)[0]);
             int[][] staveStartingCoordinates = new int[numberOfStaves][2];
@@ -301,6 +303,7 @@ public class MeasureDrawing {
          * @param endingX The ending x coordinate of the line
          */
         public void drawHorizontalLine(int[] startingCoordinates, int endingX) {
+            Log.d("DrawingLogic", "Starting coordinates: " + startingCoordinates[0] + " x " + startingCoordinates[1]);
             canvas.drawLine(startingCoordinates[0], startingCoordinates[1], endingX, startingCoordinates[1], paint);
         }
         public void drawVerticalLine(int[] startingCoordinates, int endingY) {
