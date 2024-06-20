@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import com.serpentech.legacyreader.chooseafile.MusicEntries;
 
 public class StaticStuff {
+    public static Context context;
     public static MusicEntries.MusicEntry chosenFile;
     public static int lastLineMeasureNumber = 0;
     public static boolean needNewLine = true;

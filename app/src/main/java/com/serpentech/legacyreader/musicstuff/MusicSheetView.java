@@ -50,6 +50,7 @@ public class MusicSheetView extends View {
         // Initialization code here
 //        mathStuff.densityOfPixels = getResources().getDisplayMetrics().density;
 //        mathStuff.darkMode = isDarkTheme(getContext());
+        StaticStuff.context = getContext();
     }
 
     @Override
@@ -75,18 +76,18 @@ public class MusicSheetView extends View {
         paint.setStrokeWidth(5);
 
         goodToDrawMusic = StaticStuff.chosenFile != null;
-        if(goodToDrawMusic){
+//        if(goodToDrawMusic){
 //            musicObject = new MusicObjectified();
-            System.gc();
-            String fileContent = CustomFileManager.readFile(StaticStuff.chosenFile.filepath);
-            List<XmlGrab.XmlGroup> measures = xmlGrab.scanXMLForKeywordList(fileContent, "measure");
-            System.gc();
+//            System.gc();
+//            String fileContent = CustomFileManager.readFile(StaticStuff.chosenFile.filepath);
+//            List<XmlGrab.XmlGroup> measures = xmlGrab.scanXMLForKeywordList(fileContent, "measure");
+//            System.gc();
 //            musicObject.measures = new ArrayList<>();
 //            for (XmlGrab.XmlGroup measure : measures) {
 //                musicObject.measures.add(musicObject.new Measure(measure.contents));
 //            }
 //            Log.d("MusicSheetView", "Number of measures: " + musicObject.measures.size());
-        }
+//        }
 
 
 

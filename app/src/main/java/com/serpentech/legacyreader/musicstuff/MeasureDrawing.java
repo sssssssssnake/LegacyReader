@@ -161,7 +161,7 @@ public class MeasureDrawing {
                 staveStartingCoordinates[i][0] = startingCoordinates[0];
                 staveStartingCoordinates[i][1] = startingCoordinates[1] + (i * StaticStuff.MusicSpacing.staffSpace);
             }
-
+            StaticStuff.MusicSpacing.darkMode = StaticStuff.isDarkTheme(StaticStuff.context);
             if ((StaticStuff.MusicSpacing.darkMode)) {
                 paint.setColor(0xFFAAAAAA);
             } else {
