@@ -112,7 +112,7 @@ public class Song {
         public BasicNote keySignature;
         public BasicNote[] customKeySignatureList;
         public List<Note> notes;
-        public List<StaveClef> staveClefs;
+        public List<StaveClef> staveClefs = new ArrayList<StaveClef>();
         public int totalLength;
 
 

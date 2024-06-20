@@ -31,6 +31,9 @@ public class MeasureDrawing {
         System.gc();
     }
 
+    /**
+     * Draws the lines on the screen
+     */
     public void drawLines() {
         currentLine = StaticStuff.lastLineDrawingNumber;
         goThroughLines: while (keepDrawingLines) {
@@ -152,7 +155,7 @@ public class MeasureDrawing {
      */
     public class Line {
         int lineNumber;
-        List<MeasureForDrawing> measures;
+        List<MeasureForDrawing> measures = new ArrayList<>();
         public List<Song.StaveClef> clefs;
 
 

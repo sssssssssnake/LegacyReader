@@ -85,6 +85,7 @@ public class MusicSheetView extends View {
             System.gc();
             // start to implement logic for drawing the music!!
             MeasureDrawing songForScreen = new MeasureDrawing(song, paint, canvas);
+            songForScreen.drawLines();
         }
         // need to delete at some point, but will probably be useful
 //        if(goodToDrawMusic){
