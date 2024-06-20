@@ -261,12 +261,14 @@ public class MeasureDrawing {
                 drawStave(staveStartingCoordinates[i], stoppingX);
             }
             // draw the vertical line at the end of the measure
-
             int[] topRight = new int[2];
             topRight[0] = stoppingX;
             topRight[1] = startingCoordinates[1];
             Log.d("DrawingLogic", "realStoppingY: " + (startingCoordinates[1] + ((int) estimateMeasureDimensions(measureForDrawing.measure)[1])));
             drawVerticalLine(topRight, startingCoordinates[1] + ((int) estimateMeasureDimensions(measureForDrawing.measure)[1]));
+            // draw the virtical line at the start of the measure
+            int[] topLeft = new int[2];
+            drawVerticalLine(startingCoordinates, startingCoordinates[1] + ((int) estimateMeasureDimensions(measureForDrawing.measure)[1]));
         }
 
         /**
@@ -291,6 +293,11 @@ public class MeasureDrawing {
             Log.d("DrawingLogic", "Starting coordinates: " + startingCoordinates[0] + " x " + startingCoordinates[1]);
             canvas.drawLine(startingCoordinates[0], startingCoordinates[1], endingX, startingCoordinates[1], paint);
         }
+        /**
+         * Draws a vertical line on the screen
+         * @param startingCoordinates The starting coordinates of the line in the form {x, y}
+         * @param endingY The ending y coordinate of the line the bottom of the line
+         */
         public void drawVerticalLine(int[] startingCoordinates, int endingY) {
             canvas.drawLine(startingCoordinates[0], startingCoordinates[1], startingCoordinates[0], endingY, paint);
         }
