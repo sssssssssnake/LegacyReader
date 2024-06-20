@@ -68,6 +68,7 @@ public class MeasureDrawing {
             currentLine++;
             StaticStuff.lastLineDrawingNumber = currentLine;
         }
+        Log.d("MeasureDrawing", "Current line: " + currentLine);
 
 
     }
@@ -265,7 +266,7 @@ public class MeasureDrawing {
             // draw the staves
             for (int i = 0; i < numberOfStaves; i++) {
                 staveStartingCoordinates[i][0] = startingCoordinates[0];
-                staveStartingCoordinates[i][1] = startingCoordinates[1] + (i * StaticStuff.MusicSpacing.staffSpace);
+                staveStartingCoordinates[i][1] = startingCoordinates[1] + (i * dpToPx(StaticStuff.MusicSpacing.staffSpace));
             }
             if ((StaticStuff.MusicSpacing.darkMode)) {
                 paint.setColor(0xFFAAAAAA);
@@ -293,7 +294,7 @@ public class MeasureDrawing {
             // draw 4 lines
             for (int i = 0; i < 4; i++) {
                 drawHorizontalLine(startingCoordinates, endingX);
-                startingCoordinates[1] += StaticStuff.MusicSpacing.lineSpace;
+                startingCoordinates[1] += dpToPx(StaticStuff.MusicSpacing.lineSpace);
             }
         }
 

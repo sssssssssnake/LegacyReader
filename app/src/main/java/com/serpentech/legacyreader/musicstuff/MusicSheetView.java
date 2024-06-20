@@ -80,16 +80,21 @@ public class MusicSheetView extends View {
         paint.setColor(Color.MAGENTA);
         paint.setStrokeWidth(5);
 
-        goodToDrawMusic = StaticStuff.chosenFile != null;
+//        goodToDrawMusic = (StaticStuff.chosenFile != null) && (!StaticStuff.isAlreadyDrawn);
+        goodToDrawMusic = (StaticStuff.chosenFile != null);
         Log.d("MusicSheetView", "goodToDrawMusic: " + goodToDrawMusic);
         if (goodToDrawMusic) {
             song = new Song(CustomFileManager.readFile(StaticStuff.chosenFile.filepath));
             System.gc();
             Log.d("MusicSheetView", "Song created");
             // start to implement logic for drawing the music!!
-            MeasureDrawing songForScreen = new MeasureDrawing(song, paint, canvas);
-            songForScreen.drawLines();
+            measureDrawing = new MeasureDrawing(song, paint, canvas);
+            measureDrawing.drawLines();
+//            StaticStuff.isAlreadyDrawn = true;
+        } else if (StaticStuff.isAlreadyDrawn && (StaticStuff.chosenFile != null)) {
+            measureDrawing.drawLines();
         }
+
         // need to delete at some point, but will probably be useful
 //        if(goodToDrawMusic){
 //            musicObject = new MusicObjectified();

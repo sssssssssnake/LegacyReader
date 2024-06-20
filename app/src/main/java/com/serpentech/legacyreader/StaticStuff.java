@@ -11,6 +11,7 @@ public class StaticStuff {
     public static int lastLineMeasureNumber = 0;
     public static int lastLineDrawingNumber;
     public static boolean needNewLine = true;
+    public static boolean isAlreadyDrawn = false;
     public static class MusicSpacing {
         public static int sideMargins = 5;
         public static int noteSpace = 5;
