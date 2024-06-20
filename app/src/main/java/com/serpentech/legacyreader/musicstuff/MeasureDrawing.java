@@ -265,8 +265,6 @@ public class MeasureDrawing {
             int[] topRight = new int[2];
             topRight[0] = stoppingX;
             topRight[1] = startingCoordinates[1];
-//            drawVerticalLine(topRight, startingCoordinates[1] + ((numberOfStaves) * StaticStuff.MusicSpacing.staffSpace) + (StaticStuff.MusicSpacing.lineSpace * 4));
-            Log.d("DrawingLogic", "stoppingY: " + startingCoordinates[1]  +((numberOfStaves) * StaticStuff.MusicSpacing.staffSpace) + (StaticStuff.MusicSpacing.lineSpace * 4));
             Log.d("DrawingLogic", "realStoppingY: " + (startingCoordinates[1] + ((int) estimateMeasureDimensions(measureForDrawing.measure)[1])));
             drawVerticalLine(topRight, startingCoordinates[1] + ((int) estimateMeasureDimensions(measureForDrawing.measure)[1]));
         }
@@ -278,7 +276,7 @@ public class MeasureDrawing {
          */
         public void drawStave(int[] startingCoordinates, int endingX) {
             // draw 4 lines
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < 5; i++) {
                 drawHorizontalLine(startingCoordinates, endingX);
                 startingCoordinates[1] += dpToPx(StaticStuff.MusicSpacing.lineSpace);
             }
