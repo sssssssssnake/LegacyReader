@@ -112,7 +112,12 @@ public class CustomFileManager {
 
     }
 
-    // Method for reading a file given a file path
+
+    /**
+     * Reads a file from a given file path.
+     * @param filePath The path of the file to read.
+     * @return The contents of the file as a string.
+     */
     public static String readFile(String filePath) {
         try {
             return new String(Files.readAllBytes(Paths.get(filePath)));

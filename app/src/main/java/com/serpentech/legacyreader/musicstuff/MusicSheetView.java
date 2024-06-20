@@ -14,6 +14,7 @@ import android.util.Log;
 import com.serpentech.legacyreader.StaticStuff;
 import com.serpentech.legacyreader.filemanagement.CustomFileManager;
 import com.serpentech.legacyreader.filemanagement.xmlmanage.XmlGrab;
+import com.serpentech.legacyreader.musicstuff.music.Song;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ public class MusicSheetView extends View {
     private int viewWidth;
     private int viewHeight;
     public boolean goodToDrawMusic = false;
+    Song song;
 //    MathStuff mathStuff = new MathStuff();
 //    MusicObjectified musicObject = new MusicObjectified();
 //    MusicObjectified.Measure testMeasure;
@@ -76,6 +78,12 @@ public class MusicSheetView extends View {
         paint.setStrokeWidth(5);
 
         goodToDrawMusic = StaticStuff.chosenFile != null;
+        if (goodToDrawMusic) {
+            song = new Song(CustomFileManager.readFile(StaticStuff.chosenFile.filepath));
+            System.gc();
+            // start to implement logic for drawing the music!!
+        }
+        // need to delete at some point, but will probably be useful
 //        if(goodToDrawMusic){
 //            musicObject = new MusicObjectified();
 //            System.gc();
