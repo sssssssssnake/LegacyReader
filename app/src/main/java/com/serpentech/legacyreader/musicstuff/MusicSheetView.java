@@ -51,7 +51,7 @@ public class MusicSheetView extends View {
 
     private void init() {
         // Initialization code here
-//        mathStuff.densityOfPixels = getResources().getDisplayMetrics().density;
+        StaticStuff.MusicSpacing.densityOfPixels = getResources().getDisplayMetrics().density;
 //        mathStuff.darkMode = isDarkTheme(getContext());
         StaticStuff.MusicSpacing.darkMode = StaticStuff.isDarkTheme(getContext());
         Log.d("MusicSheetView", "Dark mode: " + StaticStuff.MusicSpacing.darkMode);
@@ -64,7 +64,7 @@ public class MusicSheetView extends View {
         viewWidth = w;
         viewHeight = h;
 
-//        mathStuff.densityOfPixels = getResources().getDisplayMetrics().density;
+        StaticStuff.MusicSpacing.densityOfPixels = getResources().getDisplayMetrics().density;
 
         Log.d("MusicSheetView", "Width: " + viewWidth + " Height: " + viewHeight);
         StaticStuff.musicSheetViewDimensionsPx = new int[] {viewWidth, viewHeight};
