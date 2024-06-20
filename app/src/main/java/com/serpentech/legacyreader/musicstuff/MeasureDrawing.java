@@ -30,7 +30,12 @@ public class MeasureDrawing {
             lines.add(new Line(song));
         }
         Log.d("MeasureDrawing", "Number of lines: " + lines.size());
-        Log.d("MeasureDrawing", "Measures in line 1: " + lines.get(0).measures.size());
+        int totalMeasures = 0;
+        for (Line line : lines) {
+            totalMeasures += line.measures.size();
+        }
+        Log.d("MeasureDrawing", "Total measures (test): " + totalMeasures);
+//        currentMaxHeight = 0;
         System.gc();
     }
 
