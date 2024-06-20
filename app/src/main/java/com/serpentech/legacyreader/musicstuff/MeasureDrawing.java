@@ -16,6 +16,10 @@ public class MeasureDrawing {
     List<Line> lines;
     DrawingLogic drawingLogic;
     int linesOnScreen;
+    int currentLine = 0;
+    int currentMaxHeight;
+    boolean keepDrawingLines;
+    int margins = 5;
 
     public MeasureDrawing(Song song, Paint paint, Canvas canvas) {
         drawingLogic = new DrawingLogic(canvas, paint);
@@ -29,12 +33,19 @@ public class MeasureDrawing {
 
     public void drawLines() {
 
-        goThroughLines: for (Line line : lines) {
-            goThroughMeasures: for (MeasureForDrawing measure : line.measures) {
-                //TODO: draw the measures and apply fun logic, ~yay~
+        goThroughLines: while (keepDrawingLines) {
+            int[] startingCoordinates = new int[2];
+            // See if we can draw another line
+            // starting y is however far down the screen we have drawn so far + margin
+            startingCoordinates[1] = currentMaxHeight + margins;
+            Line currentWorkingLine = lines.get(currentLine);
 
+            goThroughMeasures: for (MeasureForDrawing measure : currentWorkingLine.measures) {
+                //TODO: draw the measures and apply fun logic, ~yay~
             }
         }
+
+
     }
 
     /**
