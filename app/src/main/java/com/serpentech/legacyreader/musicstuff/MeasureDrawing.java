@@ -32,17 +32,29 @@ public class MeasureDrawing {
     }
 
     public void drawLines() {
-
+        currentLine = StaticStuff.lastLineDrawingNumber;
         goThroughLines: while (keepDrawingLines) {
             int[] startingCoordinates = new int[2];
-            // See if we can draw another line
             // starting y is however far down the screen we have drawn so far + margin
             startingCoordinates[1] = currentMaxHeight + margins;
             Line currentWorkingLine = lines.get(currentLine);
-
+            // See if we can draw another line
+            int newTotalHeight = addNewSpacing(currentWorkingLine, currentMaxHeight, margins);
+            if (newTotalHeight == 0) {
+                keepDrawingLines = false;
+                break goThroughLines;
+            } else {
+                currentMaxHeight = newTotalHeight;
+            }
+            // starting x is 0 from initialization already
             goThroughMeasures: for (MeasureForDrawing measure : currentWorkingLine.measures) {
                 //TODO: draw the measures and apply fun logic, ~yay~
+                drawingLogic.drawMeasure(measure, startingCoordinates);
+                // update the starting coordinates for the next measure
+                startingCoordinates[0] += (int) estimateMeasureDimensions(measure.measure)[0];
             }
+            currentLine++;
+            StaticStuff.lastLineDrawingNumber = currentLine;
         }
 
 
@@ -229,7 +241,7 @@ public class MeasureDrawing {
             for (int i = 0; i < numberOfStaves; i++) {
                 drawStave(staveStartingCoordinates[i], stoppingX);
             }
-            // draw the virtical line at the end of the measure
+            // draw the vertical line at the end of the measure
 
             int[] topRight = new int[2];
             topRight[0] = stoppingX;
