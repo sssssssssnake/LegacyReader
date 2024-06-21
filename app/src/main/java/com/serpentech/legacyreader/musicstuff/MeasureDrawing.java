@@ -60,7 +60,6 @@ public class MeasureDrawing {
             }
             // starting x is 0 from initialization already
             goThroughMeasures: for (MeasureForDrawing measure : currentWorkingLine.measures) {
-                //TODO: draw the measures and apply fun logic, ~yay~
                 drawingLogic.drawMeasure(measure, startingCoordinates);
                 // update the starting coordinates for the next measure
                 startingCoordinates[0] += (int) estimateMeasureDimensions(measure.measure)[0];
@@ -129,12 +128,15 @@ public class MeasureDrawing {
             this.measure = measure;
             staves = measure.staves;
             findNoteGroups();
+            // log the number of note groups
+            Log.d("MeasureForDrawing", "In measure " + measure.measureNumber + " there are " + noteGroupsSize + " note groups");
         }
 
         /**
          * Finds the note groups (how many times a group of notes are played) in the measure and sets the noteGroupsSize and noteGroups variables
          */
         public void findNoteGroups() {
+            // TODO: fix this, its broken
             List<int[]> times = new ArrayList<>();
             for (Song.Note note : measure.notes) {
                 boolean found = false;

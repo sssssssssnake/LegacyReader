@@ -34,7 +34,6 @@ public class Song {
                 ++counter;
             }
         }
-        // TODO: update the measure attributes it doesn't work
         Log.d("Song", "Updated measure attributes");
 
         // update the notes length
