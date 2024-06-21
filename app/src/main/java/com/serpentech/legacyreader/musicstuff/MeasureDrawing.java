@@ -138,24 +138,30 @@ public class MeasureDrawing {
         public void findNoteGroups() {
             // TODO: fix this, its broken
             List<int[]> times = new ArrayList<>();
-            for (Song.Note note : measure.notes) {
-                boolean found = false;
+            noteScan: for (Song.Note note : measure.notes) {
+                boolean foundInArray = false;
+                // check if there is nothing in the array
+//                Log.d("FindNoteGroups", "Is times empty1 " + times.isEmpty());
                 if (times.isEmpty()) {
                     times.add(note.positionFromStart);
+//                    Log.d("FindNoteGroups", "Is times empty " + times.isEmpty());
                 } else {
                     for (int[] time : times) {
-                        if (note.positionFromStart == time) {
-                            found = true;
-                            break;
+                        if ((note.positionFromStart[0] == time[0]) && (note.positionFromStart[1] == time[1])) {
+                            foundInArray = true;
+                            break noteScan;
                         }
                     }
-                    if (!found) {
+                    if (!foundInArray) {
                         times.add(note.positionFromStart);
                     }
                 }
+                Log.d("Measure" + measure.measureNumber, "Note starts at " + note.positionFromStart[0] + " " + note.positionFromStart[1]);
             }
+
             noteGroupsSize = times.size();
             noteGroups = times;
+//            Log.d("FindNoteGroups", "In measure " + measure.measureNumber + " there are " + noteGroupsSize + " note groups");
         }
     }
 
